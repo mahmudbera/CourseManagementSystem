@@ -7,7 +7,7 @@ using Repositories;
 
 #nullable disable
 
-namespace Repositories.Migrations
+namespace ManagementSystem.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
     partial class RepositoryContextModelSnapshot : ModelSnapshot
@@ -28,6 +28,7 @@ namespace Repositories.Migrations
 
                     b.Property<string>("ClassroomName")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("CourseId")
@@ -39,6 +40,22 @@ namespace Repositories.Migrations
                         .IsUnique();
 
                     b.ToTable("Classrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            ClassroomId = 1,
+                            Capacity = 30,
+                            ClassroomName = "Room A",
+                            CourseId = 1
+                        },
+                        new
+                        {
+                            ClassroomId = 2,
+                            Capacity = 25,
+                            ClassroomName = "Room B",
+                            CourseId = 2
+                        });
                 });
 
             modelBuilder.Entity("Entities.Model.Course", b =>
@@ -49,6 +66,7 @@ namespace Repositories.Migrations
 
                     b.Property<string>("CourseName")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Credits")
@@ -56,9 +74,11 @@ namespace Repositories.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("InstructorId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CourseId");
@@ -66,6 +86,24 @@ namespace Repositories.Migrations
                     b.HasIndex("InstructorId");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            CourseId = 1,
+                            CourseName = "Math 101",
+                            Credits = 3,
+                            Description = "Basic Mathematics",
+                            InstructorId = 1
+                        },
+                        new
+                        {
+                            CourseId = 2,
+                            CourseName = "History 101",
+                            Credits = 3,
+                            Description = "Basic History",
+                            InstructorId = 2
+                        });
                 });
 
             modelBuilder.Entity("Entities.Model.Enrollment", b =>
@@ -93,6 +131,22 @@ namespace Repositories.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("Enrollments");
+
+                    b.HasData(
+                        new
+                        {
+                            EnrollmentId = 1,
+                            CourseId = 1,
+                            EnrollmentDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(568),
+                            StudentId = 1
+                        },
+                        new
+                        {
+                            EnrollmentId = 2,
+                            CourseId = 2,
+                            EnrollmentDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(585),
+                            StudentId = 2
+                        });
                 });
 
             modelBuilder.Entity("Entities.Model.Instructor", b =>
@@ -103,10 +157,12 @@ namespace Repositories.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("HireDate")
@@ -114,11 +170,30 @@ namespace Repositories.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("InstructorId");
 
                     b.ToTable("Instructors");
+
+                    b.HasData(
+                        new
+                        {
+                            InstructorId = 1,
+                            Email = "johndoe@email.com",
+                            FirstName = "John",
+                            HireDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(2251),
+                            LastName = "Doe"
+                        },
+                        new
+                        {
+                            InstructorId = 2,
+                            Email = "janesmith@email.com",
+                            FirstName = "Jane",
+                            HireDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(2260),
+                            LastName = "Smith"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Model.Student", b =>
@@ -132,6 +207,7 @@ namespace Repositories.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("EnrollmentDate")
@@ -139,15 +215,37 @@ namespace Repositories.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("StudentId");
 
                     b.ToTable("Students");
+
+                    b.HasData(
+                        new
+                        {
+                            StudentId = 1,
+                            DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "alice@email.com",
+                            EnrollmentDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(3901),
+                            FirstName = "Alice",
+                            LastName = "Johnson"
+                        },
+                        new
+                        {
+                            StudentId = 2,
+                            DateOfBirth = new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "bob@email.com",
+                            EnrollmentDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(3909),
+                            FirstName = "Bob",
+                            LastName = "Brown"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Model.Classroom", b =>
@@ -163,7 +261,9 @@ namespace Repositories.Migrations
                 {
                     b.HasOne("Entities.Model.Instructor", "Instructor")
                         .WithMany("Courses")
-                        .HasForeignKey("InstructorId");
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Instructor");
                 });

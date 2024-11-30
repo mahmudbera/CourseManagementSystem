@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ManagementSystem.Controller
+namespace ManagementSystem.Controllers
 {
-	public class CourseController : Microsoft.AspNetCore.Mvc.Controller
+	public class CourseController : Controller
 	{
 
 		[HttpGet]

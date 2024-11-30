@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Repositories.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace ManagementSystem.Migrations
 {
     /// <inheritdoc />
     public partial class startPoint : Migration
@@ -17,9 +19,9 @@ namespace Repositories.Migrations
                 {
                     InstructorId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     HireDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -33,9 +35,9 @@ namespace Repositories.Migrations
                 {
                     StudentId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EnrollmentDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -50,10 +52,10 @@ namespace Repositories.Migrations
                 {
                     CourseId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CourseName = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    CourseName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Credits = table.Column<int>(type: "INTEGER", nullable: false),
-                    InstructorId = table.Column<int>(type: "INTEGER", nullable: true)
+                    InstructorId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,7 +64,8 @@ namespace Repositories.Migrations
                         name: "FK_Courses_Instructors_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "Instructors",
-                        principalColumn: "InstructorId");
+                        principalColumn: "InstructorId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,7 +74,7 @@ namespace Repositories.Migrations
                 {
                     ClassroomId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ClassroomName = table.Column<string>(type: "TEXT", nullable: false),
+                    ClassroomName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Capacity = table.Column<int>(type: "INTEGER", nullable: false),
                     CourseId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
@@ -111,6 +114,51 @@ namespace Repositories.Migrations
                         principalTable: "Students",
                         principalColumn: "StudentId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Instructors",
+                columns: new[] { "InstructorId", "Email", "FirstName", "HireDate", "LastName" },
+                values: new object[,]
+                {
+                    { 1, "johndoe@email.com", "John", new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(2251), "Doe" },
+                    { 2, "janesmith@email.com", "Jane", new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(2260), "Smith" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Students",
+                columns: new[] { "StudentId", "DateOfBirth", "Email", "EnrollmentDate", "FirstName", "LastName" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "alice@email.com", new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(3901), "Alice", "Johnson" },
+                    { 2, new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "bob@email.com", new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(3909), "Bob", "Brown" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "CourseId", "CourseName", "Credits", "Description", "InstructorId" },
+                values: new object[,]
+                {
+                    { 1, "Math 101", 3, "Basic Mathematics", 1 },
+                    { 2, "History 101", 3, "Basic History", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Classrooms",
+                columns: new[] { "ClassroomId", "Capacity", "ClassroomName", "CourseId" },
+                values: new object[,]
+                {
+                    { 1, 30, "Room A", 1 },
+                    { 2, 25, "Room B", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Enrollments",
+                columns: new[] { "EnrollmentId", "CourseId", "EnrollmentDate", "Grade", "StudentId" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(568), null, 1 },
+                    { 2, 2, new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(585), null, 2 }
                 });
 
             migrationBuilder.CreateIndex(
