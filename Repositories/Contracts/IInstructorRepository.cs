@@ -1,9 +1,10 @@
-using Entities.Model;
+using Entities.Models;
 
 namespace Repositories.Contracts
 {
 	public interface IInstructorRepository : IRepositoryBase<Instructor>
 	{
-		
+		IQueryable<Instructor> GetAllInstructors(bool trackChanges);
+		void AddInstructor(Instructor instructor);
 	}
 }

@@ -17,7 +17,7 @@ namespace ManagementSystem.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
-            modelBuilder.Entity("Entities.Model.Classroom", b =>
+            modelBuilder.Entity("Entities.Models.Classroom", b =>
                 {
                     b.Property<int>("ClassroomId")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace ManagementSystem.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Model.Course", b =>
+            modelBuilder.Entity("Entities.Models.Course", b =>
                 {
                     b.Property<int>("CourseId")
                         .ValueGeneratedOnAdd()
@@ -81,6 +81,13 @@ namespace ManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("Deactive");
+
                     b.HasKey("CourseId");
 
                     b.HasIndex("InstructorId");
@@ -94,7 +101,8 @@ namespace ManagementSystem.Migrations
                             CourseName = "Math 101",
                             Credits = 3,
                             Description = "Basic Mathematics",
-                            InstructorId = 1
+                            InstructorId = 1,
+                            Status = "Active"
                         },
                         new
                         {
@@ -102,11 +110,12 @@ namespace ManagementSystem.Migrations
                             CourseName = "History 101",
                             Credits = 3,
                             Description = "Basic History",
-                            InstructorId = 2
+                            InstructorId = 2,
+                            Status = "Active"
                         });
                 });
 
-            modelBuilder.Entity("Entities.Model.Enrollment", b =>
+            modelBuilder.Entity("Entities.Models.Enrollment", b =>
                 {
                     b.Property<int>("EnrollmentId")
                         .ValueGeneratedOnAdd()
@@ -137,19 +146,19 @@ namespace ManagementSystem.Migrations
                         {
                             EnrollmentId = 1,
                             CourseId = 1,
-                            EnrollmentDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(568),
+                            EnrollmentDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(600),
                             StudentId = 1
                         },
                         new
                         {
                             EnrollmentId = 2,
                             CourseId = 2,
-                            EnrollmentDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(585),
+                            EnrollmentDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(615),
                             StudentId = 2
                         });
                 });
 
-            modelBuilder.Entity("Entities.Model.Instructor", b =>
+            modelBuilder.Entity("Entities.Models.Instructor", b =>
                 {
                     b.Property<int>("InstructorId")
                         .ValueGeneratedOnAdd()
@@ -183,7 +192,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 1,
                             Email = "johndoe@email.com",
                             FirstName = "John",
-                            HireDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(2251),
+                            HireDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(2507),
                             LastName = "Doe"
                         },
                         new
@@ -191,12 +200,12 @@ namespace ManagementSystem.Migrations
                             InstructorId = 2,
                             Email = "janesmith@email.com",
                             FirstName = "Jane",
-                            HireDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(2260),
+                            HireDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(2513),
                             LastName = "Smith"
                         });
                 });
 
-            modelBuilder.Entity("Entities.Model.Student", b =>
+            modelBuilder.Entity("Entities.Models.Student", b =>
                 {
                     b.Property<int>("StudentId")
                         .ValueGeneratedOnAdd()
@@ -223,6 +232,10 @@ namespace ManagementSystem.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("StudentId");
 
                     b.ToTable("Students");
@@ -233,33 +246,35 @@ namespace ManagementSystem.Migrations
                             StudentId = 1,
                             DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "alice@email.com",
-                            EnrollmentDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(3901),
+                            EnrollmentDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(4135),
                             FirstName = "Alice",
-                            LastName = "Johnson"
+                            LastName = "Johnson",
+                            Status = "Active"
                         },
                         new
                         {
                             StudentId = 2,
                             DateOfBirth = new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bob@email.com",
-                            EnrollmentDate = new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(3909),
+                            EnrollmentDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(4144),
                             FirstName = "Bob",
-                            LastName = "Brown"
+                            LastName = "Brown",
+                            Status = "Active"
                         });
                 });
 
-            modelBuilder.Entity("Entities.Model.Classroom", b =>
+            modelBuilder.Entity("Entities.Models.Classroom", b =>
                 {
-                    b.HasOne("Entities.Model.Course", "Course")
+                    b.HasOne("Entities.Models.Course", "Course")
                         .WithOne("Classroom")
-                        .HasForeignKey("Entities.Model.Classroom", "CourseId");
+                        .HasForeignKey("Entities.Models.Classroom", "CourseId");
 
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("Entities.Model.Course", b =>
+            modelBuilder.Entity("Entities.Models.Course", b =>
                 {
-                    b.HasOne("Entities.Model.Instructor", "Instructor")
+                    b.HasOne("Entities.Models.Instructor", "Instructor")
                         .WithMany("Courses")
                         .HasForeignKey("InstructorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,15 +283,15 @@ namespace ManagementSystem.Migrations
                     b.Navigation("Instructor");
                 });
 
-            modelBuilder.Entity("Entities.Model.Enrollment", b =>
+            modelBuilder.Entity("Entities.Models.Enrollment", b =>
                 {
-                    b.HasOne("Entities.Model.Course", "Course")
+                    b.HasOne("Entities.Models.Course", "Course")
                         .WithMany("Enrollments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Model.Student", "Student")
+                    b.HasOne("Entities.Models.Student", "Student")
                         .WithMany("Enrollments")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -287,7 +302,7 @@ namespace ManagementSystem.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("Entities.Model.Course", b =>
+            modelBuilder.Entity("Entities.Models.Course", b =>
                 {
                     b.Navigation("Classroom")
                         .IsRequired();
@@ -295,12 +310,12 @@ namespace ManagementSystem.Migrations
                     b.Navigation("Enrollments");
                 });
 
-            modelBuilder.Entity("Entities.Model.Instructor", b =>
+            modelBuilder.Entity("Entities.Models.Instructor", b =>
                 {
                     b.Navigation("Courses");
                 });
 
-            modelBuilder.Entity("Entities.Model.Student", b =>
+            modelBuilder.Entity("Entities.Models.Student", b =>
                 {
                     b.Navigation("Enrollments");
                 });

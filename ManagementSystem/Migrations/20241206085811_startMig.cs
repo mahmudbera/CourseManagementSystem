@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class startPoint : Migration
+    public partial class startMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,7 +39,8 @@ namespace ManagementSystem.Migrations
                     LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EnrollmentDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    EnrollmentDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,7 +56,8 @@ namespace ManagementSystem.Migrations
                     CourseName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Credits = table.Column<int>(type: "INTEGER", nullable: false),
-                    InstructorId = table.Column<int>(type: "INTEGER", nullable: false)
+                    InstructorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false, defaultValue: "Deactive")
                 },
                 constraints: table =>
                 {
@@ -121,26 +123,26 @@ namespace ManagementSystem.Migrations
                 columns: new[] { "InstructorId", "Email", "FirstName", "HireDate", "LastName" },
                 values: new object[,]
                 {
-                    { 1, "johndoe@email.com", "John", new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(2251), "Doe" },
-                    { 2, "janesmith@email.com", "Jane", new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(2260), "Smith" }
+                    { 1, "johndoe@email.com", "John", new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(2507), "Doe" },
+                    { 2, "janesmith@email.com", "Jane", new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(2513), "Smith" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Students",
-                columns: new[] { "StudentId", "DateOfBirth", "Email", "EnrollmentDate", "FirstName", "LastName" },
+                columns: new[] { "StudentId", "DateOfBirth", "Email", "EnrollmentDate", "FirstName", "LastName", "Status" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "alice@email.com", new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(3901), "Alice", "Johnson" },
-                    { 2, new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "bob@email.com", new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(3909), "Bob", "Brown" }
+                    { 1, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "alice@email.com", new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(4135), "Alice", "Johnson", "Active" },
+                    { 2, new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "bob@email.com", new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(4144), "Bob", "Brown", "Active" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Courses",
-                columns: new[] { "CourseId", "CourseName", "Credits", "Description", "InstructorId" },
+                columns: new[] { "CourseId", "CourseName", "Credits", "Description", "InstructorId", "Status" },
                 values: new object[,]
                 {
-                    { 1, "Math 101", 3, "Basic Mathematics", 1 },
-                    { 2, "History 101", 3, "Basic History", 2 }
+                    { 1, "Math 101", 3, "Basic Mathematics", 1, "Active" },
+                    { 2, "History 101", 3, "Basic History", 2, "Active" }
                 });
 
             migrationBuilder.InsertData(
@@ -157,8 +159,8 @@ namespace ManagementSystem.Migrations
                 columns: new[] { "EnrollmentId", "CourseId", "EnrollmentDate", "Grade", "StudentId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(568), null, 1 },
-                    { 2, 2, new DateTime(2024, 11, 30, 13, 14, 21, 587, DateTimeKind.Local).AddTicks(585), null, 2 }
+                    { 1, 1, new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(600), null, 1 },
+                    { 2, 2, new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(615), null, 2 }
                 });
 
             migrationBuilder.CreateIndex(

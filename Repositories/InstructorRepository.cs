@@ -1,4 +1,4 @@
-using Entities.Model;
+using Entities.Models;
 using Repositories.Contracts;
 
 namespace Repositories
@@ -8,5 +8,17 @@ namespace Repositories
 		public InstructorRepository(RepositoryContext context) : base(context)
 		{
 		}
+
+        public void AddInstructor(Instructor instructor)
+        {
+            Create(instructor);
+        }
+
+        public IQueryable<Instructor> GetAllInstructors(bool trackChanges)
+        {
+            return FindAll(trackChanges);
+        }
+    
+		
 	}
 }

@@ -1,4 +1,4 @@
-using Entities.Model;
+using Entities.Models;
 using Repositories.Contracts;
 
 namespace Repositories
@@ -9,5 +9,10 @@ namespace Repositories
 			: base(context)
 		{
 		}
-	}
+
+        public void CreateEnrollment(Enrollment enrollment)
+        {
+            Create(enrollment);
+        }
+    }
 }

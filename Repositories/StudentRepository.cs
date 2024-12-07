@@ -1,4 +1,4 @@
-using Entities.Model;
+using Entities.Models;
 using Repositories.Contracts;
 
 namespace Repositories
@@ -9,5 +9,20 @@ namespace Repositories
 			: base(repositoryContext)
 		{
 		}
-	}
+
+        public void CreateStudent(Student student)
+        {
+			Create(student);
+        }
+
+        public IQueryable<Student> GetAllStudents(bool trackChanges)
+        {
+            return FindAll(trackChanges);
+        }
+
+        public Student GetStudentById(int id, bool trackChanges)
+        {
+            return FindByCondition(s => s.StudentId.Equals(id), trackChanges).SingleOrDefault();
+        }
+    }
 }

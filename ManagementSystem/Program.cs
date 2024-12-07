@@ -1,8 +1,4 @@
-using Repositories;
-using Microsoft.EntityFrameworkCore;
-using Repositories.Contracts;
-using Services;
-using Services.Contracts;
+using ManagementSystem.Infrastructe.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,26 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<RepositoryContext>(options =>
-{
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection")
-    , b => b.MigrationsAssembly("ManagementSystem")
-    );
-});
-
-builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
-builder.Services.AddScoped<IClassroomRepository, ClassroomRepository>();
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-
-builder.Services.AddScoped<IServiceManager, ServiceManager>();
-builder.Services.AddScoped<IClassroomService, ClassroomService>();
-builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
-builder.Services.AddScoped<IInstructorService, InstructorService>();
-builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.ConfiugureDbContext(builder.Configuration);
+builder.Services.ConfigureSession();
+builder.Services.ConfigureRepositoryRegistration();
+builder.Services.ConfigureServiceRegistration();
+builder.Services.ConfigureRouting();
 
 var app = builder.Build();
 
@@ -51,5 +32,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.ConfigureAndCheckMigration();
+app.ConfigureLocalization();
 
 app.Run();

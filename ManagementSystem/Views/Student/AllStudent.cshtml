@@ -1,0 +1,55 @@
+@model IEnumerable<Student>
+<div class="container mt-4">
+    <h2 class="mb-4">Student List</h2>
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+				<th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.StudentId</td>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+					<td style="color: @(student.Status == "Active" ? "green" : (student.Status == "Deactive" ? "red" : "gray"))">@student.Status</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a  class="btn btn-primary btn-sm" 
+                                    asp-action="Edit"
+									asp-route-id="@student.StudentId">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            <a  class="btn btn-info btn-sm" 
+									asp-action="Get"
+									asp-route-id="@student.StudentId">
+                                <i class="bi bi-info-circle"></i> Details
+                            </a>
+                            <button type="button" class="btn btn-danger btn-sm"
+									disabled="@(student.Status == "Deactive")"
+									asp-action="Delete"
+									asp-route-id="@student.StudentId"
+									>
+								<i class="bi bi-trash"></i> Delete
+							</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a class="btn btn-success" asp-action="Create">
+            <i class="bi bi-plus-circle"></i> 
+			Add New Student
+        </a>
+    </div>
+</div>

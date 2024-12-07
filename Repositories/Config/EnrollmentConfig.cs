@@ -1,4 +1,4 @@
-using Entities.Model;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories.Config
