@@ -1,0 +1,98 @@
+@model Course
+
+<div class="container mt-4">
+    <h2 class="mb-4">Course Details</h2>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">@Model.CourseName</h3>
+            <span class="badge bg-light text-primary">@Model.Status</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Course ID:</dt>
+                        <dd class="col-sm-8">@Model.CourseId</dd>
+
+                        <dt class="col-sm-4">Course Description:</dt>
+                        <dd class="col-sm-8">@Model.Description</dd>
+
+                        <dt class="col-sm-4">Credits:</dt>
+                        <dd class="col-sm-8">@Model.Credits</dd>
+
+                        <dt class="col-sm-4">Instructor:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.Instructor != null)
+                            {
+                                <a asp-controller="Instructor" asp-action="Detail" asp-route-id="@Model.InstructorId">
+                                    @Model.Instructor.FirstName @Model.Instructor.LastName
+                                </a>
+                            }
+                            else
+                            {
+                                <span>Not Assigned</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <h4>Classroom Information</h4>
+                    @if (Model.Classroom != null)
+                    {
+                        <dl class="row">
+                            <dt class="col-sm-4">Classroom Name:</dt>
+                            <dd class="col-sm-8">@Model.Classroom.ClassroomName</dd>
+
+                            <dt class="col-sm-4">Capacity:</dt>
+                            <dd class="col-sm-8">@Model.Classroom.Capacity</dd>
+                        </dl>
+                    }
+                    else
+                    {
+                        <p>No classroom assigned.</p>
+                    }
+                </div>
+            </div>
+
+            <h4 class="mt-4">Enrolled Students</h4>
+            @if (Model.Enrollments != null && Model.Enrollments.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Enrollment Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var enrollment in Model.Enrollments)
+                            {
+                                <tr>
+                                    <td>@enrollment.Student.StudentId</td>
+                                    <td>
+                                        <a asp-controller="Student" asp-action="Get" asp-route-id="@enrollment.Student.StudentId">
+                                            @enrollment.Student.FirstName @enrollment.Student.LastName
+                                        </a>
+                                    </td>
+                                    <td>@enrollment.EnrollmentDate.ToShortDateString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p>No students enrolled in this course.</p>
+            }
+        </div>
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@Model.CourseId" class="btn btn-primary">Edit</a>
+            <a asp-action="Courses" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+

@@ -10,16 +10,19 @@ namespace Repositories
 		{
 		}
 
-        public void AddCourse(Course course)
-        {
-            Create(course);
-        }
+        public void CreateCourse(Course course) => Create(course);
 
         public IQueryable<Course> GetAllCourses(bool trackChanges)
         {
             return FindAll(trackChanges);
         }
-        
-        
+
+        public Course GetCourseById(int id, bool trackChanges)
+        {
+            return FindByCondition(c => c.CourseId.Equals(id), trackChanges)
+                    .SingleOrDefault();
+        }
+
+        public void UpdateOneCourse(Course course) => Update(course);
     }
 }

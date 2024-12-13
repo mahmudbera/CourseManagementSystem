@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-namespace Entities.Models
-{
 
-	public class Course
+namespace Entities.Dtos
+{
+	public record CourseDto
 	{
 		[Required(ErrorMessage = "Course Id is required")]
 		public int CourseId { get; set; }
@@ -10,7 +10,7 @@ namespace Entities.Models
 		[Required(ErrorMessage = "Course Name is required")]
 		public string CourseName { get; set; }
 
-		[Required(ErrorMessage = "Course Description is required")]
+		[Required(ErrorMessage = "Course Code is required")]
 		public string Description { get; set; }
 
 		[Required(ErrorMessage = "Credits is required")]
@@ -19,12 +19,6 @@ namespace Entities.Models
 		[Required(ErrorMessage = "Instructor Id is required")]
 		public int? InstructorId { get; set; } // Nullable for optional instructor assignment
 
-		public string Status { get; set; } = "Active"; // Active or Deactive
-
-		// Navigation Properties
-		public Instructor? Instructor { get; set; }
-		public ICollection<Enrollment>? Enrollments { get; set; }
-		public Classroom? Classroom { get; set; }
+		public string Status { get; set; }
 	}
-
 }

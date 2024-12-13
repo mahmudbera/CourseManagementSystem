@@ -1,0 +1,67 @@
+@model Course
+@{
+    ViewData["Title"] = "Edit Course";
+}
+
+<div class="container mt-4">
+    <h2>Edit Course</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="CourseId" />
+
+                <div class="mb-3">
+                    <label asp-for="CourseName" class="form-label"></label>
+                    <input asp-for="CourseName" class="form-control" />
+                    <span asp-validation-for="CourseName" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Credits" class="form-label"></label>
+                    <select asp-for="Credits" class="form-select">
+                        @for (int i = 0; i <= 5; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Credits" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="InstructorId" class="form-label"></label>
+                    <select asp-for="InstructorId" asp-items="ViewBag.InstructorList" class="form-select">
+                        <option value="">-- Select Instructor --</option>
+                    </select>
+                    <span asp-validation-for="InstructorId" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label"></label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-action="Courses" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

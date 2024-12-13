@@ -14,7 +14,7 @@ namespace ManagementSystem.Controllers
 			_manager = manager;
 		}
 
-		public IActionResult AllStudent()
+		public IActionResult Students()
 		{
 			var students = _manager.StudentService.GetAllStudents(false).ToList();
 			return View(students);
