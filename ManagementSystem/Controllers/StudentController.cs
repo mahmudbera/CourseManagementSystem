@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Entities.Models;
+using Entities.Dtos;
 
 namespace ManagementSystem.Controllers
 {
@@ -8,12 +9,12 @@ namespace ManagementSystem.Controllers
 	{
 		private readonly IServiceManager _manager;
 
-        public StudentController(IServiceManager manager)
-        {
-            _manager = manager;
-        }
+		public StudentController(IServiceManager manager)
+		{
+			_manager = manager;
+		}
 
-        public IActionResult AllStudent()
+		public IActionResult AllStudent()
 		{
 			var students = _manager.StudentService.GetAllStudents(false).ToList();
 			return View(students);
@@ -30,6 +31,7 @@ namespace ManagementSystem.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				student.EnrollmentDate = DateTime.Now;
 				_manager.StudentService.CreateStudent(student);
 				return RedirectToAction("AllStudent");
 			}
@@ -50,19 +52,26 @@ namespace ManagementSystem.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Edit([FromForm] Student student)
+		public IActionResult Edit([FromForm] StudentDtoForUpdate studentDto)
 		{
 			if (ModelState.IsValid)
 			{
-				//_manager.StudentService.UpdateStudent(student);
+				_manager.StudentService.UpdateOneStudent(studentDto);
 				return RedirectToAction("AllStudent");
 			}
-			return View(student);
+			return View();
 		}
 
-		public IActionResult Delete(int id)
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Deactivate(int id)
 		{
-			_manager.StudentService.DeleteStudent(id);
+			var student = _manager.StudentService.GetStudentById(id, false);
+			if (student.Status != "Active")
+			{
+				return BadRequest("Only active users can be deactivated.");
+			}
+			_manager.StudentService.DeactivateStudent(id);
 			return RedirectToAction("AllStudent");
 		}
 	}

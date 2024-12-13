@@ -7,5 +7,6 @@ namespace Repositories.Contracts
 		IQueryable<Student> GetAllStudents(bool trackChanges);
 		void CreateStudent(Student student);
 		Student GetStudentById(int id, bool trackChanges);
+		void UpdateOneStudent(Student student);
 	}
 }

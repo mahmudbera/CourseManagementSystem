@@ -24,5 +24,7 @@ namespace Repositories
         {
             return FindByCondition(s => s.StudentId.Equals(id), trackChanges).SingleOrDefault();
         }
+
+        public void UpdateOneStudent(Student student) => Update(student);
     }
 }
