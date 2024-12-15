@@ -6,10 +6,10 @@ namespace Services.Contracts
 	public interface IStudentService
 	{
 		IQueryable<Student> GetAllStudents(bool trackChanges);
-		void CreateStudent(Student student);
-		Student GetStudentById(int id, bool trackChanges);
-		void DeactivateStudent(int id);
-		void UpdateOneStudent(StudentDtoForUpdate studentDto);
 		int GetActiveStudentsCount();
+		Student GetStudentById(int id, bool trackChanges);
+		(bool isSuccess, string message) CreateStudent(Student student);
+		void DeactivateStudent(int id);
+		(bool isSuccess, string message) UpdateOneStudent(StudentDtoForUpdate studentDto);
 	}
 }

@@ -15,6 +15,6 @@ namespace Entities.Models
 		public int? CourseId { get; set; }
 
 		// Navigation Property
-		public Course Course { get; set; }
+		public Course? Course { get; set; }
 	}
 }

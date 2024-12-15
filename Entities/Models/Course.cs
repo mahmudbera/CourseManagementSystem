@@ -18,7 +18,7 @@ namespace Entities.Models
 
 		public int? InstructorId { get; set; }
 
-		public string Status { get; set; }
+		public string? Status { get; set; }
 
 		// Navigation Properties
 		public Instructor? Instructor { get; set; }

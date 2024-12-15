@@ -25,6 +25,8 @@ namespace Repositories
                     .SingleOrDefault();
         }
 
+        public Course GetCourseByName(string name, bool trackChanges) => FindByCondition(c => c.CourseName.ToLower().Equals(name.ToLower()), trackChanges).SingleOrDefault();
+
         public void UpdateOneCourse(Course course) => Update(course);
     }
 }

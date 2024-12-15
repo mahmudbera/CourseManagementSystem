@@ -30,14 +30,12 @@ namespace ManagementSystem.Controllers
 		public IActionResult Edit(int id)
 		{
 			var classroom = _manager.ClassroomService.GetClassroomById(id, true);
-
-			var courses = _manager.CourseService.GetAllCourses(false);
-			var availableCourses = courses.Where(c => (c.Classroom == null || c.Classroom.ClassroomId == id) && c.Status.Equals("Active"));
+			var availableCourses = _manager.CourseService.GetAvailableCourses(id);
 
 			ViewBag.Courses = availableCourses.Select(c => new SelectListItem
 			{
-				Value = c.CourseId.ToString(), // Kurs ID'si
-				Text = c.CourseName           // Kurs Adı
+				Value = c.CourseId.ToString(),
+				Text = c.CourseName
 			}).ToList();
 
 			return View(classroom);
@@ -47,15 +45,24 @@ namespace ManagementSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Edit(ClassroomDtoForUpdate classroomDto)
 		{
-			_manager.ClassroomService.UpdateClassroom(classroomDto);
-			return RedirectToAction("Classrooms");
+			if (ModelState.IsValid)
+			{
+				var (isSuccess, message) = _manager.ClassroomService.UpdateClassroom(classroomDto);
+				ViewBag.Message = message;
+				ViewBag.Success = isSuccess;
+				return View("Classrooms", _manager.ClassroomService.GetAllClassrooms(false).ToList());
+			}
+			else
+			{
+				ViewBag.Message = "Please correct the errors in the form.";
+				ViewBag.Success = false;
+				return View();
+			}
 		}
 
 		public IActionResult Create()
 		{
-			var courses = _manager.CourseService.GetAllCourses(false);
-
-			var availableCourses = courses.Where(c => c.Classroom == null && c.Status.Equals("Active"));
+			var availableCourses = _manager.CourseService.GetAvailableCoursesForNewClassroom();
 
 			ViewBag.Courses = availableCourses.Select(c => new SelectListItem
 			{
@@ -70,9 +77,19 @@ namespace ManagementSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Create(Classroom classroom)
 		{
+			if (ModelState.IsValid)
+			{
+				var (isSuccess, message) = _manager.ClassroomService.CreateClassroom(classroom);
 
-			_manager.ClassroomService.CreateClassroom(classroom);
-			return RedirectToAction("Classrooms");
+				ViewBag.Message = message;
+				ViewBag.Success = isSuccess;
+			}
+			else
+			{
+				ViewBag.Message = "Please correct the errors in the form.";
+				ViewBag.Success = false;
+			}
+			return View("Classrooms", _manager.ClassroomService.GetAllClassrooms(false).ToList());
 		}
 
 		[HttpPost]

@@ -43,6 +43,15 @@ namespace ManagementSystem.Controllers
 				Text = c.CourseName
 			}).ToList();
 
+			var message = TempData["Message"];
+			var success = TempData["Success"];
+
+			if (message != null)
+			{
+				ViewBag.Message = message.ToString();
+				ViewBag.Success = Convert.ToBoolean(success);
+			}
+
 			return View(enrollments);
 		}
 
@@ -53,22 +62,24 @@ namespace ManagementSystem.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				_manager.EnrollmentService.AddEnrollment(enrollment);
-				Console.WriteLine($"\nSA StudentId: {enrollment.StudentId.GetType()}, CourseId: {enrollment.CourseId.GetType()}, Date: {enrollment.EnrollmentDate.GetType()}\n");
-				return RedirectToAction("Enrollments");
+				var (isSuccess, message) = _manager.EnrollmentService.AddEnrollment(enrollment);
+
+				TempData["Message"] = message;
+				TempData["Success"] = isSuccess;
 			}
 			return RedirectToAction("Enrollments");
 		}
-	
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult Edit([FromForm] EnrollmentDtoForGrade enrollmentDto)
 		{
-				Console.WriteLine($"\n {enrollmentDto.EnrollmentId} {enrollmentDto.Grade} {enrollmentDto.StudentId} {enrollmentDto.CourseId} {enrollmentDto.EnrollmentDate}\n");
 			if (ModelState.IsValid)
 			{
-				_manager.EnrollmentService.UpdateOneEnrollmentGrade(enrollmentDto);
-				return RedirectToAction("Enrollments");
+				var (isSuccess, message) = _manager.EnrollmentService.UpdateOneEnrollmentGrade(enrollmentDto);
+				
+				TempData["Message"] = message;
+				TempData["Success"] = isSuccess;
 			}
 			return RedirectToAction("Enrollments");
 		}

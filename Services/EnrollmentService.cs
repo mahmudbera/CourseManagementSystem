@@ -5,9 +5,9 @@ using Repositories.Contracts;
 
 namespace Services.Contracts
 {
-	public class EnrollmentService : IEnrollmentService
-	{
-		private readonly IRepositoryManager _manager;
+    public class EnrollmentService : IEnrollmentService
+    {
+        private readonly IRepositoryManager _manager;
         private readonly IMapper _mapper;
 
         public EnrollmentService(IRepositoryManager manager, IMapper mapper)
@@ -16,22 +16,49 @@ namespace Services.Contracts
             _mapper = mapper;
         }
 
-        public void AddEnrollment(Enrollment enrollment)
-        {
-            _manager.Enrollment.CreateEnrollment(enrollment);
-            _manager.Save();
-        }
-
         public IQueryable<Enrollment> GetAllEnrollments(bool trackChanges)
         {
             return _manager.Enrollment.GetAllEnrollments(trackChanges);
         }
 
-        public void UpdateOneEnrollmentGrade(EnrollmentDtoForGrade enrollmentDto)
+        public (bool isSuccess, string message) AddEnrollment(Enrollment enrollment)
+        {
+            var existingEnrollment = _manager.Enrollment.GetAllEnrollments(false)
+                    .Where(e => e.StudentId == enrollment.StudentId && e.CourseId == enrollment.CourseId)
+                    .FirstOrDefault();
+
+            if (existingEnrollment != null)
+            {
+                return (false, "This student is already enrolled in this course.");
+            }
+
+            _manager.Enrollment.CreateEnrollment(enrollment);
+            bool result = _manager.Save();
+
+            if (result)
+            {
+                return (true, "Enrollment successfully added.");
+            }
+            else
+            {
+                return (false, "Failed to add enrollment.");
+            }
+        }
+
+        public (bool isSuccess, string message) UpdateOneEnrollmentGrade(EnrollmentDtoForGrade enrollmentDto)
         {
             var enrollment = _mapper.Map<Enrollment>(enrollmentDto);
             _manager.Enrollment.UpdateOneEnrollment(enrollment);
-            _manager.Save();   
+            bool result = _manager.Save();
+
+            if (result)
+            {
+                return (true, "Grade successfully updated.");
+            }
+            else
+            {
+                return (false, "Failed to update grade.");
+            }
         }
     }
 }

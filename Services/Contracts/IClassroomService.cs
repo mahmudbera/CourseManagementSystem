@@ -6,10 +6,11 @@ namespace Services.Contracts
 	public interface IClassroomService
 	{
 		IQueryable<Classroom> GetAllClassrooms(bool trackChanges);
+		
 		Classroom GetClassroomById(int id, bool trackChanges);
-		void CreateClassroom(Classroom classroom);
-		void UpdateClassroom(ClassroomDtoForUpdate classroomDto);
 		int GetActiveClassroomsCount();
-		public (bool Success, string Message) DeleteClassroomById(int id);
+		(bool isSuccess, string message) UpdateClassroom(ClassroomDtoForUpdate classroomDto);
+		(bool isSuccess, string message) CreateClassroom(Classroom classroom);
+		(bool Success, string Message) DeleteClassroomById(int id);
 	}
 }

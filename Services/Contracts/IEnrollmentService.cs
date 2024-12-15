@@ -6,7 +6,7 @@ namespace Services.Contracts
 	public interface IEnrollmentService
 	{
 		IQueryable<Enrollment> GetAllEnrollments(bool trackChanges);
-		void AddEnrollment(Enrollment enrollment);
-		void UpdateOneEnrollmentGrade(EnrollmentDtoForGrade enrollmentDto);
+		(bool isSuccess, string message) UpdateOneEnrollmentGrade(EnrollmentDtoForGrade enrollmentDto);
+		(bool isSuccess, string message) AddEnrollment(Enrollment enrollment);
 	}
 }

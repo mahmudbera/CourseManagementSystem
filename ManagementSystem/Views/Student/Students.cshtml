@@ -1,7 +1,15 @@
 @model IEnumerable<Student>
 <div class="container mt-4">
     <h2 class="mb-4">Student List</h2>
-
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert @(ViewBag.Success == true ? "alert-success" : "alert-danger") alert-dismissible fade show shadow-sm"
+            role="alert">
+            <i class="bi @(ViewBag.Success == true ? "bi-check-circle" : "bi-exclamation-triangle") me-2"></i>
+            @ViewBag.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <table class="table table-striped table-hover">
         <thead class="table-dark">
             <tr>

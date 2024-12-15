@@ -20,24 +20,6 @@ namespace ManagementSystem.Controllers
 			return View(students);
 		}
 
-		public IActionResult Create()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public IActionResult Create([FromForm] Student student)
-		{
-			if (ModelState.IsValid)
-			{
-				student.EnrollmentDate = DateTime.Now;
-				_manager.StudentService.CreateStudent(student);
-				return RedirectToAction("Students");
-			}
-			return View(student);
-		}
-
 		public IActionResult Get(int id)
 		{
 			var student = _manager.StudentService.GetStudentById(id, false);
@@ -63,6 +45,32 @@ namespace ManagementSystem.Controllers
 			return View(student);
 		}
 
+		public IActionResult Create()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Create([FromForm] Student student)
+		{
+			if (ModelState.IsValid)
+			{
+				student.EnrollmentDate = DateTime.Now;
+
+				var (isSuccess, message) = _manager.StudentService.CreateStudent(student);
+
+				ViewBag.Message = message;
+				ViewBag.Success = isSuccess;
+
+				if (isSuccess)
+				{
+					return View("Students", _manager.StudentService.GetAllStudents(false).ToList());
+				}
+			}
+			return View();
+		}
+
 		public IActionResult Edit(int id)
 		{
 			var student = _manager.StudentService.GetStudentById(id, true);
@@ -75,10 +83,17 @@ namespace ManagementSystem.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				_manager.StudentService.UpdateOneStudent(studentDto);
-				return RedirectToAction("Students");
+				var (isSuccess, message) = _manager.StudentService.UpdateOneStudent(studentDto);
+
+				ViewBag.Message = message;
+				ViewBag.Success = isSuccess;
+
+				if (isSuccess)
+				{
+					return View("Students", _manager.StudentService.GetAllStudents(false).ToList());
+				}
 			}
-			return View();
+			return View(studentDto);
 		}
 
 		[HttpPost]

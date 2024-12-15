@@ -16,9 +16,8 @@ namespace Entities.Dtos
 		[Required(ErrorMessage = "Credits is required")]
 		public int Credits { get; set; }
 
-		[Required(ErrorMessage = "Instructor Id is required")]
 		public int? InstructorId { get; set; } // Nullable for optional instructor assignment
 
-		public string Status { get; set; }
+		public string? Status { get; set; }
 	}
 }

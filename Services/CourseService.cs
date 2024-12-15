@@ -16,12 +16,6 @@ namespace Services.Contracts
             _mapper = mapper;
         }
 
-        public void CreateCourse(Course course)
-        {
-            _manager.Course.CreateCourse(course);
-            _manager.Save();
-        }
-
         public int GetActiveCoursesCount()
         {
             var activeCoursesCount = _manager.Course.GetAllCourses(trackChanges: false)
@@ -34,16 +28,52 @@ namespace Services.Contracts
             return _manager.Course.GetAllCourses(trackChanges);
         }
 
+        public IQueryable<Course> GetAvailableCourses(int id)
+        {
+            var courses = _manager.Course.GetAllCourses(false);
+            var availableCourses = courses.Where(c => (c.Classroom == null || c.Classroom.ClassroomId == id) && c.Status.Equals("Active"));
+            return availableCourses;
+        }
+        public IQueryable<Course> GetAvailableCoursesForNewClassroom()
+        {
+            var courses = _manager.Course.GetAllCourses(false);
+            var availableCourses = courses.Where(c => c.Classroom == null && c.Status.Equals("Active"));
+            return availableCourses;
+        }
+
         public Course GetCourseById(int id, bool trackChanges)
         {
             return _manager.Course.GetCourseById(id, trackChanges);
         }
 
-        public void UpdateOneCourse(CourseDtoForUpdate courseDto)
+        public (bool isSuccess, string message) UpdateOneCourse(CourseDtoForUpdate courseDto)
         {
             var entity = _mapper.Map<Course>(courseDto);
             _manager.Course.UpdateOneCourse(entity);
-            _manager.Save();
+            bool changes = _manager.Save();
+
+            if (changes)
+            {
+                return (true, "Course updated successfully.");
+            }
+            else
+            {
+                return (false, "No changes were made or an error occurred.");
+            }
+        }
+
+        public (bool isSuccess, string message) CreateCourse(Course course)
+        {
+            var existingCourse = _manager.Course.GetCourseByName(course.CourseName, false);
+            if (existingCourse != null)
+                return (false, "A course with this name already exists.");
+
+            _manager.Course.CreateCourse(course);
+            bool result = _manager.Save();
+            if (result)
+                return (true, "Course successfully created.");
+            else
+                return (false, "Failed to save the course.");
         }
 
         public (bool Success, string Message) DeleteCourse(int courseId)
@@ -54,13 +84,12 @@ namespace Services.Contracts
             {
                 return (false, "Course not found.");
             }
-            
+
             if (course.Status != "Inactive")
             {
                 return (false, "Only inactive courses can be deleted.");
             }
 
-            // Eğer Enrollment yoksa doğrudan sil
             if (course.Enrollments == null || !course.Enrollments.Any())
             {
                 _manager.Course.Remove(course);
@@ -68,7 +97,6 @@ namespace Services.Contracts
                 return (true, "Course deleted successfully.");
             }
 
-            // Tüm Enrollment'larda Grade verilmişse sil
             bool allEnrollmentsHaveGrades = course.Enrollments.All(e => e.Grade != null);
 
             if (allEnrollmentsHaveGrades)
@@ -78,8 +106,8 @@ namespace Services.Contracts
                 return (true, "Course deleted successfully.");
             }
 
-            // Hiçbir koşul sağlanmadıysa
             return (false, "Course cannot be deleted because it has enrollments without grades.");
         }
+
     }
 }
