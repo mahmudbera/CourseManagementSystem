@@ -19,10 +19,7 @@ namespace Repositories
 
         public Classroom GetClassroomById(int id, bool trackChanges) => FindByCondition(c => c.ClassroomId.Equals(id), trackChanges).Include(c=> c.Course).ThenInclude(c => c.Instructor).SingleOrDefault();
 
-        public void RemoveClassroom(Classroom classroom)
-        {
-            throw new NotImplementedException();
-        }
+        public void RemoveClassroom(Classroom classroom) => Remove(classroom);
 
         public void UpdateClassroom(Classroom classroom) => Update(classroom);
     }

@@ -1,4 +1,4 @@
-using ManagementSystem.Infrastructe.Extensions;
+using ManagementSystem.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

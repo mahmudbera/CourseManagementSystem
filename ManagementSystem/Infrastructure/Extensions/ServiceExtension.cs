@@ -4,7 +4,7 @@ using Repositories.Contracts;
 using Services;
 using Services.Contracts;
 
-namespace ManagementSystem.Infrastructe.Extensions
+namespace ManagementSystem.Infrastructure.Extensions
 {
 	public static class ServiceExtension
 	{

@@ -49,6 +49,14 @@ namespace ManagementSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Edit([FromForm] CourseDtoForUpdate course)
 		{
+			if (course.InstructorId is not null)
+			{
+				course.Status = "Active";
+			}
+			else
+			{
+				course.Status = "Inactive";
+			}
 			_manager.CourseService.UpdateOneCourse(course);
 
 			return RedirectToAction("Courses");
@@ -73,10 +81,35 @@ namespace ManagementSystem.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				if (course.InstructorId is null)
+				{
+					course.Status = "Inactive";
+				}
 				_manager.CourseService.CreateCourse(course);
 				return RedirectToAction("Courses");
 			}
 			return View(course);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Delete(int id)
+		{
+			var (Success, Message) = _manager.CourseService.DeleteCourse(id);
+
+			if (Success)
+			{
+				ViewBag.Message = Message;
+				ViewBag.Success = true; 
+			}
+			else
+			{
+				ViewBag.Message = Message;
+				ViewBag.Success = false; 
+			}
+
+			// Mesajla birlikte aynı sayfaya yönlendirme
+			return View("Courses", _manager.CourseService.GetAllCourses(false));
 		}
 	}
 }

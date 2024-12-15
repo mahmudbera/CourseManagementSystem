@@ -22,6 +22,12 @@ namespace Services
             return _manager.Instructor.GetAllInstructors(trackChanges);
         }
 
+        public int GetTotalInstructorsCount()
+        {
+            var totalInstructors = _manager.Instructor.GetAllInstructors(false).Count();
+            return totalInstructors;
+        }
+
         public void UpdateOneInstructor(InstructorDtoForUpdate instructorDto)
         {
             var entitiy = _mapper.Map<Instructor>(instructorDto);

@@ -4,7 +4,7 @@
     <h2 class="mb-4">Course Details</h2>
 
     <div class="card">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-Model.Instructors-center">
             <h3 class="mb-0">@Model.CourseName</h3>
             <span class="badge bg-light text-primary">@Model.Status</span>
         </div>
@@ -25,9 +25,14 @@
                         <dd class="col-sm-8">
                             @if (Model.Instructor != null)
                             {
-                                <a asp-controller="Instructor" asp-action="Details" asp-route-id="@Model.InstructorId">
-                                    @Model.Instructor.FirstName @Model.Instructor.LastName
-                                </a>
+                                <a href="javascript:void(0)" data-bs-toggle="modal"
+									data-bs-target="#viewInstructorModal" data-instructor-id="@Model.Instructor.InstructorId"
+									data-instructor-first-name="@Model.Instructor.FirstName" data-instructor-last-name="@Model.Instructor.LastName"
+									data-instructor-email="@Model.Instructor.Email"
+									data-instructor-hire-date="@Model.Instructor.HireDate.ToString("yyyy-MM-dd")"
+									data-instructor-courses="@string.Join(", ", Model.Instructor.Courses.Select(c => c.CourseName))">
+									<i class="bi bi-info-circle"></i> @Model.Instructor.FirstName @Model.Instructor.LastName
+								</a>
                             }
                             else
                             {
@@ -106,3 +111,80 @@
     </div>
 </div>
 
+<!-- View Instructor Modal -->
+<div class="modal fade" id="viewInstructorModal" tabindex="-1" aria-labelledby="viewInstructorModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="viewInstructorModalLabel">Instructor Details</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="mb-3">
+					<label for="viewInstructorId" class="form-label">Instructor ID</label>
+					<input type="text" class="form-control" id="viewInstructorId" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorFirstName" class="form-label">First Name</label>
+					<input type="text" class="form-control" id="viewInstructorFirstName" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorLastName" class="form-label">Last Name</label>
+					<input type="text" class="form-control" id="viewInstructorLastName" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorEmail" class="form-label">Email</label>
+					<input type="email" class="form-control" id="viewInstructorEmail" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorHireDate" class="form-label">Hire Date</label>
+					<input type="date" class="form-control" id="viewInstructorHireDate" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorCourses" class="form-label">Courses</label>
+					<div id="viewInstructorCourses" class="d-flex flex-wrap">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+			document.addEventListener('DOMContentLoaded', function () {
+			var viewModal = document.getElementById('viewInstructorModal');
+			viewModal.addEventListener('show.bs.modal', function (event) {
+				var button = event.relatedTarget;
+				var instructorId = button.getAttribute('data-instructor-id');
+				var firstName = button.getAttribute('data-instructor-first-name');
+				var lastName = button.getAttribute('data-instructor-last-name');
+				var email = button.getAttribute('data-instructor-email');
+				var hireDate = button.getAttribute('data-instructor-hire-date');
+				var courses = button.getAttribute('data-instructor-courses');
+
+				document.getElementById('viewInstructorId').value = instructorId;
+				document.getElementById('viewInstructorFirstName').value = firstName;
+				document.getElementById('viewInstructorLastName').value = lastName;
+				document.getElementById('viewInstructorEmail').value = email;
+				document.getElementById('viewInstructorHireDate').value = hireDate;
+
+				var coursesContainer = document.getElementById('viewInstructorCourses');
+				coursesContainer.innerHTML = '';
+				var courseList = courses.split(", ");
+				courseList.forEach(function (course) {
+					var courseBadge = document.createElement('span');
+					courseBadge.classList.add('badge', 'bg-info', 'me-2');
+					courseBadge.textContent = course;
+					coursesContainer.appendChild(courseBadge);
+				});
+			});
+		});
+	</script>
+}

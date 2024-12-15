@@ -9,5 +9,7 @@ namespace Services.Contracts
 		Classroom GetClassroomById(int id, bool trackChanges);
 		void CreateClassroom(Classroom classroom);
 		void UpdateClassroom(ClassroomDtoForUpdate classroomDto);
+		int GetActiveClassroomsCount();
+		public (bool Success, string Message) DeleteClassroomById(int id);
 	}
 }

@@ -70,8 +70,29 @@ namespace ManagementSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Create(Classroom classroom)
 		{
+
 			_manager.ClassroomService.CreateClassroom(classroom);
 			return RedirectToAction("Classrooms");
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Delete(int id)
+		{
+			var result = _manager.ClassroomService.DeleteClassroomById(id);
+
+			if (result.Success)
+			{
+				ViewBag.Message = result.Message;
+				ViewBag.Success = true;
+			}
+			else
+			{
+				ViewBag.Message = result.Message;
+				ViewBag.Success = false;
+			}
+
+			return View("Classrooms", _manager.ClassroomService.GetAllClassrooms(false).ToList());
 		}
 	}
 }

@@ -12,8 +12,7 @@ namespace Repositories.Config
 			builder.Property(c => c.CourseName).IsRequired().HasMaxLength(50);
 			builder.Property(c => c.Description).IsRequired().HasMaxLength(255);
 			builder.Property(c => c.Credits).IsRequired();
-			builder.Property(c => c.InstructorId).IsRequired();
-			builder.Property(c => c.Status).IsRequired().HasMaxLength(20).HasDefaultValue("Deactive");
+			builder.Property(c => c.Status).IsRequired().HasMaxLength(20);
 
 			builder.HasOne(c => c.Instructor)
 				.WithMany(i => i.Courses)

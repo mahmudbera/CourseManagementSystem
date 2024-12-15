@@ -16,10 +16,9 @@ namespace Entities.Models
 		[Required(ErrorMessage = "Credits is required")]
 		public int Credits { get; set; }
 
-		[Required(ErrorMessage = "Instructor Id is required")]
-		public int? InstructorId { get; set; } // Nullable for optional instructor assignment
+		public int? InstructorId { get; set; }
 
-		public string Status { get; set; } = "Active"; // Active or Deactive
+		public string Status { get; set; }
 
 		// Navigation Properties
 		public Instructor? Instructor { get; set; }

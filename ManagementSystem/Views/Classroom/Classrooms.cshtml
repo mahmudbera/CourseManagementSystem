@@ -1,104 +1,170 @@
 @model IEnumerable<Classroom>
 @{
-    ViewData["Title"] = "Classrooms";
+	ViewData["Title"] = "Classrooms";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h2">@ViewData["Title"]</h1>
-        <a asp-action="Create" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Add New Classroom
-        </a>
-    </div>
-
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info" role="alert">
-            No classrooms found. Click the "Add New Classroom" button to create one.
-        </div>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                <thead class="table-light">
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.ClassroomId)</th>
-                        <th>@Html.DisplayNameFor(model => model.ClassroomName)</th>
-                        <th>@Html.DisplayNameFor(model => model.Capacity)</th>
-                        <th>@Html.DisplayNameFor(model => model.Course)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var classroom in Model)
-                    {
-                        <tr>
-                            <td>@classroom.ClassroomId</td>
-                            <td>@classroom.ClassroomName</td>
-                            <td>@classroom.Capacity</td>
-                            <td>@(classroom.Course?.CourseName ?? "Not Assigned!")</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Classroom actions">
-                                    <a asp-action="Edit" asp-route-id="@classroom.ClassroomId" class="btn btn-sm btn-outline-primary" title="Edit">
-                                        <i class="bi bi-pencil"></i>
-										Edit
-                                    </a>
-                                    <a asp-action="Details" asp-route-id="@classroom.ClassroomId" class="btn btn-sm btn-outline-info" title="Details">
-                                        <i class="bi bi-info-circle"></i>
-										Details
-                                    </a>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" title="Delete" 
-                                            data-bs-toggle="modal" data-bs-target="#deleteModal" 
-                                            data-classroom-id="@classroom.ClassroomId" 
-                                            data-classroom-name="@classroom.ClassroomName">
-                                        <i class="bi bi-trash"></i>
-										Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
+<div class="container mt-5">
+	@if (ViewBag.Message != null)
+	{
+		<div class="alert @(ViewBag.Success == true ? "alert-success" : "alert-danger") alert-dismissible fade show shadow-sm"
+			role="alert">
+			<i class="bi @(ViewBag.Success == true ? "bi-check-circle" : "bi-exclamation-triangle") me-2"></i>
+			@ViewBag.Message
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	}
+	<div class="card shadow-lg border-0">
+		<div class="card-header bg-primary text-white py-3">
+			<div class="d-flex justify-content-between align-items-center">
+				<h1 class="h3 mb-0">@ViewData["Title"]</h1>
+				<a asp-action="Create" class="btn btn-light">
+					<i class="bi bi-plus-circle me-2"></i> Add New Classroom
+				</a>
+			</div>
+		</div>
+		<div class="card-body">
+			@if (!Model.Any())
+			{
+				<div class="alert alert-info" role="alert">
+					<i class="bi bi-info-circle me-2"></i> No classrooms found. Click the "Add New Classroom" button to
+					create one.
+				</div>
+			}
+			else
+			{
+				<div class="table-responsive">
+					<table class="table table-hover table-striped align-middle">
+						<thead class="table-light">
+							<tr>
+								<th>@Html.DisplayNameFor(model => model.ClassroomId)</th>
+								<th>@Html.DisplayNameFor(model => model.ClassroomName)</th>
+								<th>@Html.DisplayNameFor(model => model.Capacity)</th>
+								<th>@Html.DisplayNameFor(model => model.Course)</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var classroom in Model)
+							{
+								<tr>
+									<td>@classroom.ClassroomId</td>
+									<td>@classroom.ClassroomName</td>
+									<td>
+										<span class="badge bg-info">@classroom.Capacity</span>
+									</td>
+									<td>
+										@if (classroom.Course != null)
+										{
+											<span class="badge bg-success">@classroom.Course.CourseName</span>
+										}
+										else
+										{
+											<span class="badge bg-warning text-dark">Not Assigned</span>
+										}
+									</td>
+									<td>
+										<div class="btn-group" role="group" aria-label="Classroom actions">
+											<a asp-action="Edit" asp-route-id="@classroom.ClassroomId"
+												class="btn btn-sm btn-outline-primary" title="Edit">
+												<i class="bi bi-pencil me-1"></i> Edit
+											</a>
+											<a asp-action="Details" asp-route-id="@classroom.ClassroomId"
+												class="btn btn-sm btn-outline-info" title="Details">
+												<i class="bi bi-info-circle me-1"></i> Details
+											</a>
+											<button type="button" class="btn btn-sm btn-outline-danger" title="Delete"
+												data-bs-toggle="modal" data-bs-target="#deleteModal"
+												data-classroom-id="@classroom.ClassroomId"
+												data-classroom-name="@classroom.ClassroomName">
+												<i class="bi bi-trash me-1"></i> Delete
+											</button>
+										</div>
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			}
+		</div>
+	</div>
 </div>
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete the classroom "<span id="classroomNameSpan"></span>"?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form id="deleteForm" asp-action="Delete" method="post">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="classroomIdInput" name="id" value="" />
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-danger text-white">
+				<h5 class="modal-title" id="deleteModalLabel">
+					<i class="bi bi-exclamation-triangle me-2"></i> Confirm Deletion
+				</h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure you want to delete the classroom "<strong><span
+							id="classroomNameSpan"></span></strong>"?</p>
+				<p class="text-danger"><small>This action cannot be undone.</small></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<form id="deleteForm" asp-action="Delete" method="post">
+					@Html.AntiForgeryToken()
+					<input type="hidden" id="classroomIdInput" name="id" value="" />
+					<button type="submit" class="btn btn-danger">
+						<i class="bi bi-trash me-2"></i> Delete
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
+@section Styles {
+	<style>
+		.card {
+			transition: all 0.3s ease;
+		}
+
+		.card:hover {
+			box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+		}
+
+		.table {
+			transition: all 0.3s ease;
+		}
+
+		.table-hover tbody tr:hover {
+			background-color: rgba(0, 0, 0, 0.075);
+		}
+
+		.btn-group .btn {
+			transition: all 0.2s ease;
+		}
+
+		.btn-group .btn:hover {
+			transform: translateY(-2px);
+		}
+	</style>
+}
+
 @section Scripts {
-    <script>
-        $(document).ready(function() {
-            $('#deleteModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var classroomId = button.data('classroom-id');
-                var classroomName = button.data('classroom-name');
-                var modal = $(this);
-                modal.find('#classroomNameSpan').text(classroomName);
-                modal.find('#classroomIdInput').val(classroomId);
-            });
-        });
-    </script>
+	<script>
+		$(document).ready(function () {
+			$('#deleteModal').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget);
+				var classroomId = button.data('classroom-id');
+				var classroomName = button.data('classroom-name');
+				var modal = $(this);
+				modal.find('#classroomNameSpan').text(classroomName);
+				modal.find('#classroomIdInput').val(classroomId);
+			});
+
+			// Add animation to the card
+			$('.card').hide().fadeIn(1000);
+
+			// Add tooltip to the action buttons
+			$('[data-bs-toggle="tooltip"]').tooltip();
+		});
+	</script>
 }

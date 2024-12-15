@@ -30,5 +30,10 @@ namespace ManagementSystem.Controllers
 			return RedirectToAction("Instructors");
 		}
 
+		public IActionResult Create()
+		{
+			return View();
+		}
+
 	}
 }

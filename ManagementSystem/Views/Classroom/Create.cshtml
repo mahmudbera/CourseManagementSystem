@@ -3,7 +3,7 @@
     ViewData["Title"] = "Create New Classroom";
 }
 
-<div class="container mt-4">
+<div class="container mt-5">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="Classrooms">Classrooms</a></li>
@@ -13,41 +13,43 @@
 
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header bg-primary text-white">
-                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+                    <h3 class="text-center font-weight-light my-2">@ViewData["Title"]</h3>
                 </div>
                 <div class="card-body">
                     <form asp-action="Create" method="post">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-                        <div class="mb-3">
-                            <label asp-for="ClassroomName" class="form-label required">Classroom Name</label>
-                            <input asp-for="ClassroomName" class="form-control form-control-lg" placeholder="Enter classroom name" required />
+                        <div class="form-floating mb-3">
+                            <input asp-for="ClassroomName" class="form-control form-control-lg" id="inputClassroomName" placeholder="Enter classroom name" required />
+                            <label asp-for="ClassroomName" for="inputClassroomName" class="required">Classroom Name</label>
                             <span asp-validation-for="ClassroomName" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Capacity" class="form-label required">Capacity</label>
-                            <input asp-for="Capacity" class="form-control" type="number" min="1" placeholder="Enter capacity" required />
+                        <div class="form-floating mb-3">
+                            <input asp-for="Capacity" class="form-control" type="number" min="1" id="inputCapacity" placeholder="Enter capacity" required />
+                            <label asp-for="Capacity" for="inputCapacity" class="required">Capacity</label>
                             <span asp-validation-for="Capacity" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="CourseId" class="form-label">Assigned Course</label>
-                            <select asp-for="CourseId" asp-items="ViewBag.Courses" class="form-select">
+                        <div class="form-floating mb-3">
+                            <select asp-for="CourseId" asp-items="ViewBag.Courses" class="form-select" id="inputCourse">
                                 <option value="">-- Select Course (Optional) --</option>
                             </select>
+                            <label asp-for="CourseId" for="inputCourse">Assigned Course</label>
                             <span asp-validation-for="CourseId" class="text-danger"></span>
                         </div>
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a asp-action="Classrooms" class="btn btn-secondary">
-                                <i class="bi bi-x-circle"></i> Cancel
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-plus-circle"></i> Create Classroom
-                            </button>
+                        <div class="mt-4 mb-0">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a asp-action="Classrooms" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle"></i> Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-plus-circle"></i> Create Classroom
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -55,7 +57,7 @@
         </div>
     </div>
 </div>
-@* 
+
 @section Styles {
     <style>
         .required::after {
@@ -66,13 +68,26 @@
             border-color: #86b7fe;
             box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
         }
+        .card {
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+        }
     </style>
-} *@
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         $(document).ready(function () {
+            $('.form-select').select2({
+                theme: 'bootstrap-5'
+            });
+
+            $('.card').hide().fadeIn(1000);
+
             $('form').on('submit', function () {
                 if ($(this).valid()) {
                     $(this).find(':submit').attr('disabled', 'disabled');
@@ -81,4 +96,3 @@
         });
     </script>
 }
-

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class startMig : Migration
+    public partial class update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,8 +56,8 @@ namespace ManagementSystem.Migrations
                     CourseName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Credits = table.Column<int>(type: "INTEGER", nullable: false),
-                    InstructorId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false, defaultValue: "Deactive")
+                    InstructorId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,8 +66,7 @@ namespace ManagementSystem.Migrations
                         name: "FK_Courses_Instructors_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "Instructors",
-                        principalColumn: "InstructorId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "InstructorId");
                 });
 
             migrationBuilder.CreateTable(
@@ -123,8 +122,8 @@ namespace ManagementSystem.Migrations
                 columns: new[] { "InstructorId", "Email", "FirstName", "HireDate", "LastName" },
                 values: new object[,]
                 {
-                    { 1, "johndoe@email.com", "John", new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(2507), "Doe" },
-                    { 2, "janesmith@email.com", "Jane", new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(2513), "Smith" }
+                    { 1, "johndoe@email.com", "John", new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(6131), "Doe" },
+                    { 2, "janesmith@email.com", "Jane", new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(6139), "Smith" }
                 });
 
             migrationBuilder.InsertData(
@@ -132,8 +131,8 @@ namespace ManagementSystem.Migrations
                 columns: new[] { "StudentId", "DateOfBirth", "Email", "EnrollmentDate", "FirstName", "LastName", "Status" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "alice@email.com", new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(4135), "Alice", "Johnson", "Active" },
-                    { 2, new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "bob@email.com", new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(4144), "Bob", "Brown", "Active" }
+                    { 1, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "alice@email.com", new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(7401), "Alice", "Johnson", "Active" },
+                    { 2, new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "bob@email.com", new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(7408), "Bob", "Brown", "Active" }
                 });
 
             migrationBuilder.InsertData(
@@ -159,8 +158,8 @@ namespace ManagementSystem.Migrations
                 columns: new[] { "EnrollmentId", "CourseId", "EnrollmentDate", "Grade", "StudentId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(600), null, 1 },
-                    { 2, 2, new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(615), null, 2 }
+                    { 1, 1, new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(4948), null, 1 },
+                    { 2, 2, new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(4963), null, 2 }
                 });
 
             migrationBuilder.CreateIndex(

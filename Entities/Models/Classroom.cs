@@ -12,7 +12,7 @@ namespace Entities.Models
 		
 		[Required(ErrorMessage = "Capacity is a required field.")]
 		public int Capacity { get; set; }
-		public int? CourseId { get; set; } // Nullable if no course assigned
+		public int? CourseId { get; set; }
 
 		// Navigation Property
 		public Course Course { get; set; }

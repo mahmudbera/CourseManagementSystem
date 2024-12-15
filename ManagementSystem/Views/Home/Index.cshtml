@@ -1,8 +1,141 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Admin Dashboard - Course Management System";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-house-door"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Course" asp-action="Courses">
+                            <i class="bi bi-book"></i> Courses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Student" asp-action="Students">
+                            <i class="bi bi-people"></i> Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Classroom" asp-action="Classrooms">
+                            <i class="bi bi-calendar3"></i> Classrooms
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Instructor" asp-action="Instructors">
+                            <i class="bi bi-person-badge"></i> Instructors
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Dashboard</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                        <i class="bi bi-calendar"></i> This week
+                    </button>
+                </div>
+            </div>
+
+            <!-- Overview Cards -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-4">
+                <div class="col">
+                    <div class="card h-100 border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Active Courses</h5>
+                            <p class="card-text display-4">@ViewBag.ActiveCourses</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Active Students</h5>
+                            <p class="card-text display-4">@ViewBag.ActiveStudents</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-info">
+                        <div class="card-body">
+                            <h5 class="card-title">Active Classes</h5>
+                            <p class="card-text display-4">@ViewBag.ActiveClassrooms</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Instructors</h5>
+                            <p class="card-text display-4">@ViewBag.TotalInstructors</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Access -->
+            <h2 class="mb-4">Quick Access</h2>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-book"></i> Manage Courses</h5>
+                            <p class="card-text">Add, edit, or remove courses from the system.</p>
+                            <a asp-controller="Course" asp-action="Courses" class="btn btn-primary">Go to Courses</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-people"></i> Manage Students</h5>
+                            <p class="card-text">Enroll students, update information, or view records.</p>
+                            <a asp-controller="Student" asp-action="Students" class="btn btn-primary">Go to Students</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-calendar3"></i> Manage Classes</h5>
+                            <p class="card-text">Schedule classes, assign instructors, or update class details.</p>
+                            <a asp-controller="Classroom" asp-action="Classrooms" class="btn btn-primary">Go to Classes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-person-badge"></i> Manage Instructors</h5>
+                            <p class="card-text">Add new Instructors, assign courses, or update information.</p>
+                            <a asp-controller="Instructor" asp-action="Instructors" class="btn btn-primary">Go to Instructors</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-person-badge"></i> Manage Enrollments</h5>
+                            <p class="card-text">Assign enrollments or update grades.</p>
+                            <a asp-controller="Enrollment" asp-action="Enrollments" class="btn btn-primary">Go to Enrollments</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 </div>

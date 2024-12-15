@@ -76,7 +76,7 @@ namespace ManagementSystem.Controllers
 			if (ModelState.IsValid)
 			{
 				_manager.StudentService.UpdateOneStudent(studentDto);
-				return RedirectToAction("AllStudent");
+				return RedirectToAction("Students");
 			}
 			return View();
 		}

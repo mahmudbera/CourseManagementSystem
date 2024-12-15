@@ -7,6 +7,7 @@ namespace Services.Contracts
 	{
 		IQueryable<Instructor> GetAllInstructors(bool trackChanges);
 		void UpdateOneInstructor(InstructorDtoForUpdate instructorDto);
+		int GetTotalInstructorsCount();
 		
 		// Instructor GetInstructorById(int id, bool trackChanges);
 		// void CreateInstructor(Instructor instructor);

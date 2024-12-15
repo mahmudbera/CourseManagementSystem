@@ -3,7 +3,7 @@
     ViewData["Title"] = "Classroom Details";
 }
 
-<div class="container mt-4">
+<div class="container mt-5">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="Classrooms">Classrooms</a></li>
@@ -11,101 +11,116 @@
         </ol>
     </nav>
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+    <div class="card shadow-lg border-0 rounded-lg">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
             <h1 class="h3 mb-0">@Model.ClassroomName</h1>
-            <span class="badge bg-primary">ID: @Model.ClassroomId</span>
+            <span class="badge bg-light text-primary fs-6">ID: @Model.ClassroomId</span>
         </div>
         <div class="card-body">
-            <div class="row">
+            <div class="row g-4">
                 <div class="col-md-6">
-                    <h2 class="h5 mb-3">Classroom Information</h2>
+                    <h2 class="h4 mb-3 border-bottom pb-2">Classroom Information</h2>
                     <dl class="row">
-                        <dt class="col-sm-4">Name</dt>
-                        <dd class="col-sm-8">@Model.ClassroomName</dd>
+                        <dt class="col-sm-4 text-muted">Name</dt>
+                        <dd class="col-sm-8 fw-bold">@Model.ClassroomName</dd>
 
-                        <dt class="col-sm-4">Capacity</dt>
-                        <dd class="col-sm-8">@Model.Capacity students</dd>
-
-                        <dt class="col-sm-4">Status</dt>
+                        <dt class="col-sm-4 text-muted">Capacity</dt>
                         <dd class="col-sm-8">
-                            @if (Model.Capacity > 0)
+                            <span class="badge bg-info text-dark fs-6">@Model.Capacity students</span>
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">Status</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.CourseId != null)
                             {
-                                <span class="badge bg-success">Active</span>
+                                <span class="badge bg-success fs-6">Active</span>
                             }
                             else
                             {
-                                <span class="badge bg-danger">Inactive</span>
+                                <span class="badge bg-danger fs-6">Inactive</span>
                             }
                         </dd>
                     </dl>
                 </div>
                 <div class="col-md-6">
-                    <h2 class="h5 mb-3">Assigned Course</h2>
+                    <h2 class="h4 mb-3 border-bottom pb-2">Assigned Course</h2>
                     @if (Model.Course != null)
                     {
                         <dl class="row">
-                            <dt class="col-sm-4">Course Name</dt>
-                            <dd class="col-sm-8">@Model.Course.CourseName</dd>
+                            <dt class="col-sm-4 text-muted">Course Name</dt>
+                            <dd class="col-sm-8 fw-bold">@Model.Course.CourseName</dd>
 
-                            <dt class="col-sm-4">Course ID</dt>
+                            <dt class="col-sm-4 text-muted">Course ID</dt>
                             <dd class="col-sm-8">@Model.Course.CourseId</dd>
 
-                            <dt class="col-sm-4">Instructor</dt>
+                            <dt class="col-sm-4 text-muted">Instructor</dt>
                             <dd class="col-sm-8">
                                 @(Model.Course.Instructor?.FirstName ?? "Not Assigned")
                                 @(Model.Course.Instructor?.LastName ?? "")
                             </dd>
-
                         </dl>
                     }
                     else
                     {
-                        <p class="text-muted">No course currently assigned to this classroom.</p>
+                        <p class="text-muted fst-italic">No course currently assigned to this classroom.</p>
                     }
                 </div>
             </div>
 
-            <h2 class="h5 mt-4 mb-3">Additional Information</h2>
-            <div class="row">
+            <h2 class="h4 mt-5 mb-4 border-bottom pb-2">Additional Information</h2>
+            <div class="row g-4">
                 <div class="col-md-6">
-                    <div class="card bg-light">
+                    <div class="card bg-light h-100">
                         <div class="card-body">
-                            <h3 class="h6 card-title">Equipment</h3>
-                            <ul class="list-unstyled mb-0">
-                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Projector</li>
-                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Whiteboard</li>
-                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Computer</li>
-                                <li><i class="bi bi-x-circle-fill text-danger me-2"></i>Smart Board</li>
+                            <h3 class="h5 card-title mb-3">Equipment</h3>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>Projector
+                                </li>
+                                <li class="list-group-item bg-transparent d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>Whiteboard
+                                </li>
+                                <li class="list-group-item bg-transparent d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>Computer
+                                </li>
+                                <li class="list-group-item bg-transparent d-flex align-items-center">
+                                    <i class="bi bi-x-circle-fill text-danger me-2"></i>Smart Board
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card bg-light">
+                    <div class="card bg-light h-100">
                         <div class="card-body">
-                            <h3 class="h6 card-title">Accessibility</h3>
-                            <ul class="list-unstyled mb-0">
-                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Wheelchair Accessible</li>
-                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Hearing Loop System</li>
-                                <li><i class="bi bi-x-circle-fill text-danger me-2"></i>Braille Signage</li>
+                            <h3 class="h5 card-title mb-3">Accessibility</h3>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>Wheelchair Accessible
+                                </li>
+                                <li class="list-group-item bg-transparent d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>Hearing Loop System
+                                </li>
+                                <li class="list-group-item bg-transparent d-flex align-items-center">
+                                    <i class="bi bi-x-circle-fill text-danger me-2"></i>Braille Signage
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="d-flex justify-content-between">
-                <a asp-action="Classrooms" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Back to List
+        <div class="card-footer bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <a asp-action="Classrooms" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Back to List
                 </a>
                 <div>
                     <a asp-action="Edit" asp-route-id="@Model.ClassroomId" class="btn btn-primary me-2">
-                        <i class="bi bi-pencil"></i> Edit
+                        <i class="bi bi-pencil me-2"></i>Edit
                     </a>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                        <i class="bi bi-trash"></i> Delete
+                        <i class="bi bi-trash me-2"></i>Delete
                     </button>
                 </div>
             </div>
@@ -117,32 +132,54 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirm Deletion
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete the classroom "@Model.ClassroomName"?
+                <p>Are you sure you want to delete the classroom "<strong>@Model.ClassroomName</strong>"?</p>
+                <p class="text-danger mb-0"><small>This action cannot be undone.</small></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <form asp-action="Delete" asp-route-id="@Model.ClassroomId" method="post">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-2"></i>Delete
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-@* @section Styles {
+@section Styles {
     <style>
         .card {
-            transition: box-shadow 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
         }
         .card:hover {
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+        }
+        .list-group-item {
+            transition: background-color 0.3s ease-in-out;
+        }
+        .list-group-item:hover {
+            background-color: rgba(0,0,0,.03)!important;
         }
     </style>
-} *@
+}
 
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Add animation to the card
+            $('.card').hide().fadeIn(1000);
+
+            // Add tooltip to the action buttons
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}

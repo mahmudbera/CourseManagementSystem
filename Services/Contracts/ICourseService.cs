@@ -9,5 +9,7 @@ namespace Services.Contracts
 		Course GetCourseById(int id, bool trackChanges);
 		void CreateCourse(Course course);
 		void UpdateOneCourse(CourseDtoForUpdate courseDto);
+		int GetActiveCoursesCount();
+		public (bool Success, string Message) DeleteCourse(int courseId);
 	}
 }

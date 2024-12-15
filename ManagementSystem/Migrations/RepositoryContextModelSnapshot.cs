@@ -78,15 +78,12 @@ namespace ManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("InstructorId")
-                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(20)
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("Deactive");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("CourseId");
 
@@ -146,14 +143,14 @@ namespace ManagementSystem.Migrations
                         {
                             EnrollmentId = 1,
                             CourseId = 1,
-                            EnrollmentDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(600),
+                            EnrollmentDate = new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(4948),
                             StudentId = 1
                         },
                         new
                         {
                             EnrollmentId = 2,
                             CourseId = 2,
-                            EnrollmentDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(615),
+                            EnrollmentDate = new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(4963),
                             StudentId = 2
                         });
                 });
@@ -192,7 +189,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 1,
                             Email = "johndoe@email.com",
                             FirstName = "John",
-                            HireDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(2507),
+                            HireDate = new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(6131),
                             LastName = "Doe"
                         },
                         new
@@ -200,7 +197,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 2,
                             Email = "janesmith@email.com",
                             FirstName = "Jane",
-                            HireDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(2513),
+                            HireDate = new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(6139),
                             LastName = "Smith"
                         });
                 });
@@ -246,7 +243,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 1,
                             DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "alice@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(4135),
+                            EnrollmentDate = new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(7401),
                             FirstName = "Alice",
                             LastName = "Johnson",
                             Status = "Active"
@@ -256,7 +253,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 2,
                             DateOfBirth = new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bob@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 6, 11, 58, 10, 527, DateTimeKind.Local).AddTicks(4144),
+                            EnrollmentDate = new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(7408),
                             FirstName = "Bob",
                             LastName = "Brown",
                             Status = "Active"
@@ -276,9 +273,7 @@ namespace ManagementSystem.Migrations
                 {
                     b.HasOne("Entities.Models.Instructor", "Instructor")
                         .WithMany("Courses")
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InstructorId");
 
                     b.Navigation("Instructor");
                 });
@@ -304,8 +299,7 @@ namespace ManagementSystem.Migrations
 
             modelBuilder.Entity("Entities.Models.Course", b =>
                 {
-                    b.Navigation("Classroom")
-                        .IsRequired();
+                    b.Navigation("Classroom");
 
                     b.Navigation("Enrollments");
                 });

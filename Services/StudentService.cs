@@ -26,10 +26,16 @@ namespace Services
         public void DeactivateStudent(int id)
         {
             var student = _manager.Student.GetStudentById(id, false);
-            var studentDto = new StudentDtoForDeactivate { StudentId = id , FirstName = student.FirstName, LastName = student.LastName, Email = student.Email, Status = "Deactive" };
+            var studentDto = new StudentDtoForDeactivate { StudentId = id , FirstName = student.FirstName, LastName = student.LastName, Email = student.Email, Status = "Inactive" };
             var entity = _mapper.Map<Student>(studentDto);
             _manager.Student.UpdateOneStudent(entity);
             _manager.Save();
+        }
+
+        public int GetActiveStudentsCount()
+        {
+            int activeStudentsCount = _manager.Student.GetAllStudents(false).Where(s => s.Status == "Active").Count();
+            return activeStudentsCount;
         }
 
         public IQueryable<Student> GetAllStudents(bool trackChanges)
