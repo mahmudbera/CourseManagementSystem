@@ -1,4 +1,5 @@
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 
 namespace Repositories
@@ -14,11 +15,8 @@ namespace Repositories
             Create(instructor);
         }
 
-        public IQueryable<Instructor> GetAllInstructors(bool trackChanges)
-        {
-            return FindAll(trackChanges);
-        }
-    
-		
+        public IQueryable<Instructor> GetAllInstructors(bool trackChanges) => FindAll(trackChanges).Include(i => i.Courses);
+
+        public void UpdateOneInstructor(Instructor instructor) => Update(instructor);
 	}
 }

@@ -1,0 +1,84 @@
+@model Classroom
+@{
+    ViewData["Title"] = "Create New Classroom";
+}
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Classrooms">Classrooms</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="ClassroomName" class="form-label required">Classroom Name</label>
+                            <input asp-for="ClassroomName" class="form-control form-control-lg" placeholder="Enter classroom name" required />
+                            <span asp-validation-for="ClassroomName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Capacity" class="form-label required">Capacity</label>
+                            <input asp-for="Capacity" class="form-control" type="number" min="1" placeholder="Enter capacity" required />
+                            <span asp-validation-for="Capacity" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CourseId" class="form-label">Assigned Course</label>
+                            <select asp-for="CourseId" asp-items="ViewBag.Courses" class="form-select">
+                                <option value="">-- Select Course (Optional) --</option>
+                            </select>
+                            <span asp-validation-for="CourseId" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Classrooms" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Create Classroom
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* 
+@section Styles {
+    <style>
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+    </style>
+} *@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('form').on('submit', function () {
+                if ($(this).valid()) {
+                    $(this).find(':submit').attr('disabled', 'disabled');
+                }
+            });
+        });
+    </script>
+}
+

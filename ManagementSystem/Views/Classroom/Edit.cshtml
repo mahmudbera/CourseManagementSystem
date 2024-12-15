@@ -1,0 +1,87 @@
+@model Classroom
+@{
+    ViewData["Title"] = Model == null ? "Create Classroom" : "Edit Classroom";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h2 class="card-title h5 mb-0">@ViewData["Title"]</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        @if (Model?.ClassroomId > 0)
+                        {
+                            <div class="mb-3">
+                                <label asp-for="ClassroomId" class="form-label">Classroom ID</label>
+                                <input asp-for="ClassroomId" class="form-control" readonly />
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label asp-for="ClassroomName" class="form-label required">
+                                Classroom Name
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="ClassroomName" class="form-control form-control-lg border-primary" 
+                                   placeholder="Enter classroom name" required />
+                            <span asp-validation-for="ClassroomName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Capacity" class="form-label required">
+                                Capacity
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Capacity" class="form-control" type="number" 
+                                   min="1" placeholder="Enter capacity" required />
+                            <span asp-validation-for="Capacity" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CourseId" class="form-label">Assigned Course</label>
+                            <select asp-for="CourseId" asp-items="ViewBag.Courses" class="form-select">
+                                <option value="">-- Select Course --</option>
+                            </select>
+                            <span asp-validation-for="CourseId" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a asp-action="Classrooms" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function() {
+            // Enable Bootstrap form validation
+            $('form').addClass('needs-validation');
+            
+            // Custom validation handling
+            $('form').on('submit', function(event) {
+                if (!this.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                $(this).addClass('was-validated');
+            });
+        });
+    </script>
+}

@@ -1,4 +1,5 @@
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 
 namespace Repositories
@@ -10,9 +11,10 @@ namespace Repositories
 		{
 		}
 
-        public void CreateEnrollment(Enrollment enrollment)
-        {
-            Create(enrollment);
-        }
+        public void CreateEnrollment(Enrollment enrollment) => Create(enrollment);
+
+        public IQueryable<Enrollment> GetAllEnrollments(bool trackChanges) => FindAll(trackChanges).Include(e => e.Course).Include(e => e.Student);
+
+        public void UpdateOneEnrollment(Enrollment enrollment) => Update(enrollment);
     }
 }

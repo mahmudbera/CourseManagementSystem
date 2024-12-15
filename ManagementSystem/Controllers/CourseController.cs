@@ -56,10 +56,8 @@ namespace ManagementSystem.Controllers
 
 		public IActionResult Create()
 		{
-			// Instructor listesini al
 			var instructors = _manager.InstructorService.GetAllInstructors(false);
 
-			// ViewBag içine InstructorId ve isimleri aktar
 			ViewBag.InstructorList = instructors.Select(i => new SelectListItem
 			{
 				Value = i.InstructorId.ToString(),

@@ -1,4 +1,5 @@
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 
 namespace Repositories
@@ -14,9 +15,15 @@ namespace Repositories
             Create(classroom);
         }
 
+        public IQueryable<Classroom> GetAllClassrooms(bool trackChanges) => FindAll(trackChanges).Include(c => c.Course);
+
+        public Classroom GetClassroomById(int id, bool trackChanges) => FindByCondition(c => c.ClassroomId.Equals(id), trackChanges).Include(c=> c.Course).ThenInclude(c => c.Instructor).SingleOrDefault();
+
         public void RemoveClassroom(Classroom classroom)
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateClassroom(Classroom classroom) => Update(classroom);
     }
 }

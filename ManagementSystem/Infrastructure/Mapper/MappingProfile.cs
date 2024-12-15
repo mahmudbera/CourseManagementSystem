@@ -13,6 +13,12 @@ namespace ManagementSystem.Infrastructer.Mapper
 			CreateMap<StudentDtoForDeactivate, Student>();
 
 			CreateMap<CourseDtoForUpdate, Course>();
+
+			CreateMap<ClassroomDtoForUpdate, Classroom>();
+
+			CreateMap<EnrollmentDtoForGrade, Enrollment>();
+
+			CreateMap<InstructorDtoForUpdate, Instructor>();
 		}
 	}
 }

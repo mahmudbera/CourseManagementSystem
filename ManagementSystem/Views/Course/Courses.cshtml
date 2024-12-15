@@ -24,7 +24,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Course Name</th>
                     <th scope="col">Credits</th>
-                    <th scope="col">Instructor ID</th>
+                    <th scope="col">Instructor</th>
                     <th scope="col">Status</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -36,7 +36,7 @@
                         <td>@(item.CourseId)</td>
                         <td>@(item.CourseName)</td>
                         <td>@(item.Credits)</td>
-                        <td>@(item.InstructorId)</td>
+                        <td>@(item.Instructor.FirstName) @(item.Instructor.LastName)</td>
                         <td
                             style="color: @(item.Status == "Active" ? "green" : (item.Status == "Deactive" ? "red" : "gray"))">
                             @item.Status

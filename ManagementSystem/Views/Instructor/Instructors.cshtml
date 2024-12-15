@@ -1,0 +1,255 @@
+@model IEnumerable<Instructor>
+
+<div class="container mt-4">
+	@if (ViewBag.Message != null)
+	{
+		<div class="alert @(ViewBag.Success == true ? "alert-success" : "alert-danger") alert-dismissible fade show"
+			role="alert">
+			@ViewBag.Message
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	}
+
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<h2>Instructors</h2>
+		<a asp-action="Create" asp-controller="Instructor" class="btn btn-primary">
+			<i class="bi bi-plus-circle"></i> Add New Instructor
+		</a>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table table-striped table-hover">
+			<thead class="table-light">
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">Email</th>
+					<th scope="col">Hire Date</th>
+					<th scope="col">Courses</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.InstructorId</td>
+						<td>@item.FirstName</td>
+						<td>@item.LastName</td>
+						<td>@item.Email</td>
+						<td>@item.HireDate.ToString("yyyy-MM-dd")</td>
+						<td>
+							@if (item.Courses != null && item.Courses.Any())
+							{
+								@foreach (var course in item.Courses)
+								{
+									<span class="badge bg-info">@course.CourseName</span>
+								}
+							}
+							else
+							{
+								<span class="badge bg-secondary">No Courses</span>
+							}
+						</td>
+						<td>
+							<div class="btn-group" role="group">
+								<a href="javascript:void(0)" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+									data-bs-target="#editInstructorModal" data-instructor-id="@item.InstructorId"
+									data-instructor-first-name="@item.FirstName" data-instructor-last-name="@item.LastName"
+									data-instructor-email="@item.Email"
+									data-instructor-hire-date="@item.HireDate.ToString("yyyy-MM-dd")">
+									<i class="bi bi-pencil"></i> Edit
+								</a>
+								<a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal"
+									data-bs-target="#viewInstructorModal" data-instructor-id="@item.InstructorId"
+									data-instructor-first-name="@item.FirstName" data-instructor-last-name="@item.LastName"
+									data-instructor-email="@item.Email"
+									data-instructor-hire-date="@item.HireDate.ToString("yyyy-MM-dd")"
+									data-instructor-courses="@string.Join(", ", item.Courses.Select(c => c.CourseName))">
+									<i class="bi bi-info-circle"></i> Details
+								</a>
+								<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+									data-bs-target="#deleteModal" data-instructor-id="@item.InstructorId"
+									data-instructor-name="@item.FirstName @item.LastName">
+									<i class="bi bi-trash"></i> Delete
+								</button>
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- View Instructor Modal -->
+<div class="modal fade" id="viewInstructorModal" tabindex="-1" aria-labelledby="viewInstructorModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="viewInstructorModalLabel">Instructor Details</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="mb-3">
+					<label for="viewInstructorId" class="form-label">Instructor ID</label>
+					<input type="text" class="form-control" id="viewInstructorId" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorFirstName" class="form-label">First Name</label>
+					<input type="text" class="form-control" id="viewInstructorFirstName" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorLastName" class="form-label">Last Name</label>
+					<input type="text" class="form-control" id="viewInstructorLastName" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorEmail" class="form-label">Email</label>
+					<input type="email" class="form-control" id="viewInstructorEmail" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorHireDate" class="form-label">Hire Date</label>
+					<input type="date" class="form-control" id="viewInstructorHireDate" disabled />
+				</div>
+
+				<div class="mb-3">
+					<label for="viewInstructorCourses" class="form-label">Courses</label>
+					<div id="viewInstructorCourses" class="d-flex flex-wrap">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to delete the instructor "<span id="instructorNameSpan"></span>"?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<form id="deleteForm" asp-action="Delete" asp-controller="Instructor" method="post">
+					@Html.AntiForgeryToken()
+					<input type="hidden" id="instructorIdInput" name="id" value="" />
+					<button type="submit" class="btn btn-danger">Delete</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="editInstructorModal" tabindex="-1" aria-labelledby="editInstructorModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editInstructorModalLabel">Edit Instructor</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="editInstructorForm" asp-action="Edit" asp-controller="Instructor" method="post">
+					@Html.AntiForgeryToken()
+					<input type="hidden" id="editInstructorId" name="InstructorId" />
+					<input type="hidden" id="editInstructorHireDate" name="HireDate" />
+
+					<div class="mb-3">
+						<label for="editInstructorFirstName" class="form-label">First Name</label>
+						<input type="text" class="form-control" id="editInstructorFirstName" name="FirstName"
+							required />
+					</div>
+
+					<div class="mb-3">
+						<label for="editInstructorLastName" class="form-label">Last Name</label>
+						<input type="text" class="form-control" id="editInstructorLastName" name="LastName" required />
+					</div>
+
+					<div class="mb-3">
+						<label for="editInstructorEmail" class="form-label">Email</label>
+						<input type="email" class="form-control" id="editInstructorEmail" name="Email" required />
+					</div>
+
+					<button type="submit" class="btn btn-primary">Save Changes</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var editModal = document.getElementById('editInstructorModal');
+			editModal.addEventListener('show.bs.modal', function (event) {
+				var button = event.relatedTarget;
+				var instructorId = button.getAttribute('data-instructor-id');
+				var firstName = button.getAttribute('data-instructor-first-name');
+				var lastName = button.getAttribute('data-instructor-last-name');
+				var email = button.getAttribute('data-instructor-email');
+				var hireDate = button.getAttribute('data-instructor-hire-date');
+
+				document.getElementById('editInstructorId').value = instructorId;
+				document.getElementById('editInstructorFirstName').value = firstName;
+				document.getElementById('editInstructorLastName').value = lastName;
+				document.getElementById('editInstructorEmail').value = email;
+				document.getElementById('editInstructorHireDate').value = hireDate;
+			});
+		});
+
+		document.addEventListener('DOMContentLoaded', function () {
+			var deleteModal = document.getElementById('deleteModal');
+			deleteModal.addEventListener('show.bs.modal', function (event) {
+				var button = event.relatedTarget;
+				var instructorId = button.getAttribute('data-instructor-id');
+				var instructorName = button.getAttribute('data-instructor-name');
+
+				var instructorNameSpan = document.getElementById('instructorNameSpan');
+				instructorNameSpan.textContent = instructorName;
+
+				var instructorIdInput = document.getElementById('instructorIdInput');
+				instructorIdInput.value = instructorId;
+			});
+		});
+
+		document.addEventListener('DOMContentLoaded', function () {
+			var viewModal = document.getElementById('viewInstructorModal');
+			viewModal.addEventListener('show.bs.modal', function (event) {
+				var button = event.relatedTarget;
+				var instructorId = button.getAttribute('data-instructor-id');
+				var firstName = button.getAttribute('data-instructor-first-name');
+				var lastName = button.getAttribute('data-instructor-last-name');
+				var email = button.getAttribute('data-instructor-email');
+				var hireDate = button.getAttribute('data-instructor-hire-date');
+				var courses = button.getAttribute('data-instructor-courses');
+
+				document.getElementById('viewInstructorId').value = instructorId;
+				document.getElementById('viewInstructorFirstName').value = firstName;
+				document.getElementById('viewInstructorLastName').value = lastName;
+				document.getElementById('viewInstructorEmail').value = email;
+				document.getElementById('viewInstructorHireDate').value = hireDate;
+
+				var coursesContainer = document.getElementById('viewInstructorCourses');
+				coursesContainer.innerHTML = '';
+				var courseList = courses.split(", ");
+				courseList.forEach(function (course) {
+					var courseBadge = document.createElement('span');
+					courseBadge.classList.add('badge', 'bg-info', 'me-2');
+					courseBadge.textContent = course;
+					coursesContainer.appendChild(courseBadge);
+				});
+			});
+		});
+	</script>
+}

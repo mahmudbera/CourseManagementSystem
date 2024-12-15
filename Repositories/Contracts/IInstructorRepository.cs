@@ -6,5 +6,6 @@ namespace Repositories.Contracts
 	{
 		IQueryable<Instructor> GetAllInstructors(bool trackChanges);
 		void AddInstructor(Instructor instructor);
+		void UpdateOneInstructor(Instructor instructor);
 	}
 }

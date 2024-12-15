@@ -25,7 +25,7 @@
                         <dd class="col-sm-8">
                             @if (Model.Instructor != null)
                             {
-                                <a asp-controller="Instructor" asp-action="Detail" asp-route-id="@Model.InstructorId">
+                                <a asp-controller="Instructor" asp-action="Details" asp-route-id="@Model.InstructorId">
                                     @Model.Instructor.FirstName @Model.Instructor.LastName
                                 </a>
                             }
@@ -65,6 +65,7 @@
                                 <th>Student ID</th>
                                 <th>Student Name</th>
                                 <th>Enrollment Date</th>
+                                <th>Grade</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,6 +79,15 @@
                                         </a>
                                     </td>
                                     <td>@enrollment.EnrollmentDate.ToShortDateString()</td>
+                                    <td>
+                                        @if (enrollment.Grade.HasValue)
+                                        {
+                                            @enrollment.Grade
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Not graded</span>
+                                        }
                                 </tr>
                             }
                         </tbody>

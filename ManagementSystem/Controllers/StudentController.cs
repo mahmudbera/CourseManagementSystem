@@ -33,7 +33,7 @@ namespace ManagementSystem.Controllers
 			{
 				student.EnrollmentDate = DateTime.Now;
 				_manager.StudentService.CreateStudent(student);
-				return RedirectToAction("AllStudent");
+				return RedirectToAction("Students");
 			}
 			return View(student);
 		}
@@ -41,6 +41,25 @@ namespace ManagementSystem.Controllers
 		public IActionResult Get(int id)
 		{
 			var student = _manager.StudentService.GetStudentById(id, false);
+
+			decimal totalCredits = 0m;
+			decimal totalGradePoints = 0m;
+
+			foreach (var enrollment in student.Enrollments)
+			{
+				if (enrollment.Grade.HasValue)
+				{
+					var grade = enrollment.Grade.Value;
+					var course = enrollment.Course;
+
+					totalCredits += course.Credits;
+					totalGradePoints += grade * course.Credits;
+				}
+			}
+
+			decimal averageGrade = totalCredits > 0 ? totalGradePoints / totalCredits : 0m;
+			ViewBag.AverageGrade = averageGrade;
+
 			return View(student);
 		}
 
@@ -72,7 +91,7 @@ namespace ManagementSystem.Controllers
 				return BadRequest("Only active users can be deactivated.");
 			}
 			_manager.StudentService.DeactivateStudent(id);
-			return RedirectToAction("AllStudent");
+			return RedirectToAction("Students");
 		}
 	}
 }
