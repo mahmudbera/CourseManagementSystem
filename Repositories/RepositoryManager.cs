@@ -4,7 +4,7 @@ namespace Repositories
 {
     public class RepositoryManager : IRepositoryManager
     {
-		private readonly RepositoryContext _context;
+        private readonly RepositoryContext _context;
         private readonly IClassroomRepository _classroomRepository;
         private readonly ICourseRepository _courseRepository;
         private readonly IEnrollmentRepository _enrollmentRepository;
@@ -27,9 +27,10 @@ namespace Repositories
         public IInstructorRepository Instructor => _instructorRepository;
         public IStudentRepository Student => _studentRepository;
 
-        public void Save()
+        public bool Save()
         {
-			_context.SaveChanges();
+            int result = _context.SaveChanges();
+            return result > 0;
         }
     }
 }

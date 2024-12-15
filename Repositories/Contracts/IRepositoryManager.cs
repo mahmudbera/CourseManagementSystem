@@ -7,6 +7,6 @@ namespace Repositories.Contracts
 		IEnrollmentRepository Enrollment { get; }
 		IInstructorRepository Instructor { get; }
 		IStudentRepository Student { get; }
-		void Save();
+		bool Save();
 	}
 }

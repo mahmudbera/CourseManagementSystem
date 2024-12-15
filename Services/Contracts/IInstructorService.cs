@@ -6,11 +6,9 @@ namespace Services.Contracts
 	public interface IInstructorService
 	{
 		IQueryable<Instructor> GetAllInstructors(bool trackChanges);
-		void UpdateOneInstructor(InstructorDtoForUpdate instructorDto);
 		int GetTotalInstructorsCount();
-		
-		// Instructor GetInstructorById(int id, bool trackChanges);
-		// void CreateInstructor(Instructor instructor);
-		// void DeleteInstructor(Instructor instructor);
+		(bool isSuccess, string message) CreateInstructor(Instructor instructor);
+		(bool isSuccess, string message) DeleteInstructor(int instructorId);
+		(bool isSuccess, string message) UpdateOneInstructor(InstructorDtoForUpdate instructorDto);
 	}
 }

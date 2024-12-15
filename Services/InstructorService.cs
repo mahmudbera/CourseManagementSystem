@@ -6,9 +6,9 @@ using Services.Contracts;
 
 namespace Services
 {
-	public class InstructorService : IInstructorService
-	{
-		private readonly IRepositoryManager _manager;
+    public class InstructorService : IInstructorService
+    {
+        private readonly IRepositoryManager _manager;
         private readonly IMapper _mapper;
 
         public InstructorService(IRepositoryManager manager, IMapper mapper)
@@ -28,11 +28,60 @@ namespace Services
             return totalInstructors;
         }
 
-        public void UpdateOneInstructor(InstructorDtoForUpdate instructorDto)
+        public (bool isSuccess, string message) CreateInstructor(Instructor instructor)
+        {
+            _manager.Instructor.AddInstructor(instructor);
+            bool result = _manager.Save();
+
+            if (result)
+            {
+                return (true, "Instructor successfully created.");
+            }
+            else
+            {
+                return (false, "An error occurred while creating instructor.");
+            }
+        }
+
+        public (bool isSuccess, string message) DeleteInstructor(int instructorId)
+        {
+            var instructor = _manager.Instructor.GetOneInstructor(instructorId, false);
+            if (instructor == null)
+                return (false, "Instructor not found.");
+
+            var relatedCourses = _manager.Course.FindByCondition(c => c.InstructorId == instructorId, false).ToList();
+
+            foreach (var course in relatedCourses)
+            {
+                var enrollments = _manager.Enrollment.FindByCondition(e => e.CourseId == course.CourseId, false).ToList();
+
+                if (enrollments.Any(e => e.Grade == null))
+                    return (false, "Instructor cannot be deleted as there are enrollments with missing grades.");
+            }
+
+            if (!relatedCourses.Any())
+            {
+                _manager.Instructor.RemoveInstructor(instructor);
+                _manager.Save();
+                return (true, "Instructor deleted successfully.");
+            }
+
+            return (false, "Instructor cannot be deleted as they are associated with courses.");
+        }
+
+        public (bool isSuccess, string message) UpdateOneInstructor(InstructorDtoForUpdate instructorDto)
         {
             var entitiy = _mapper.Map<Instructor>(instructorDto);
             _manager.Instructor.UpdateOneInstructor(entitiy);
-            _manager.Save();
+            bool isSaved = _manager.Save();
+            if (isSaved)
+            {
+                return (true, "Instructor updated successfully.");
+            }
+            else
+            {
+                return (false, "An error occurred while updating the instructor.");
+            }
         }
     }
 }

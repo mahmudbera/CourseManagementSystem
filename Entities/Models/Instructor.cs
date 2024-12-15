@@ -21,7 +21,7 @@ namespace Entities.Models
 		public DateTime HireDate { get; set; }
 
 		// Navigation Property
-		public ICollection<Course> Courses { get; set; }
+		public ICollection<Course>? Courses { get; set; }
 	}
 
 }
