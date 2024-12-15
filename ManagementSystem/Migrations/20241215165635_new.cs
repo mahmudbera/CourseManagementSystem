@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class update : Migration
+    public partial class @new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -122,8 +122,14 @@ namespace ManagementSystem.Migrations
                 columns: new[] { "InstructorId", "Email", "FirstName", "HireDate", "LastName" },
                 values: new object[,]
                 {
-                    { 1, "johndoe@email.com", "John", new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(6131), "Doe" },
-                    { 2, "janesmith@email.com", "Jane", new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(6139), "Smith" }
+                    { 1, "johndoe@email.com", "John", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(884), "Doe" },
+                    { 2, "janesmith@email.com", "Jane", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(889), "Smith" },
+                    { 3, "michaelbrown@email.com", "Michael", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(890), "Brown" },
+                    { 4, "emilydavis@email.com", "Emily", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(891), "Davis" },
+                    { 5, "davidwilson@email.com", "David", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(892), "Wilson" },
+                    { 6, "sarahmartinez@email.com", "Sarah", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(893), "Martinez" },
+                    { 7, "christaylor@email.com", "Chris", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(894), "Taylor" },
+                    { 8, "lauraanderson@email.com", "Laura", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(895), "Anderson" }
                 });
 
             migrationBuilder.InsertData(
@@ -131,8 +137,14 @@ namespace ManagementSystem.Migrations
                 columns: new[] { "StudentId", "DateOfBirth", "Email", "EnrollmentDate", "FirstName", "LastName", "Status" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "alice@email.com", new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(7401), "Alice", "Johnson", "Active" },
-                    { 2, new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "bob@email.com", new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(7408), "Bob", "Brown", "Active" }
+                    { 1, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "alice@email.com", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2242), "Alice", "Johnson", "Active" },
+                    { 2, new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "bob@email.com", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2250), "Bob", "Brown", "Active" },
+                    { 3, new DateTime(2000, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "charlie@email.com", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2298), "Charlie", "Williams", "Active" },
+                    { 4, new DateTime(2000, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "david@email.com", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2301), "David", "Jones", "Active" },
+                    { 5, new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "eva@email.com", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2303), "Eva", "Martinez", "Active" },
+                    { 6, new DateTime(2000, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "frank@email.com", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2307), "Frank", "Garcia", "Active" },
+                    { 7, new DateTime(2000, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "grace@email.com", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2309), "Grace", "Rodriguez", "Active" },
+                    { 8, new DateTime(2000, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "henry@email.com", new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2312), "Henry", "Martinez", "Active" }
                 });
 
             migrationBuilder.InsertData(
@@ -141,7 +153,13 @@ namespace ManagementSystem.Migrations
                 values: new object[,]
                 {
                     { 1, "Math 101", 3, "Basic Mathematics", 1, "Active" },
-                    { 2, "History 101", 3, "Basic History", 2, "Active" }
+                    { 2, "History 101", 3, "Basic History", 2, "Active" },
+                    { 3, "Physics 101", 4, "Introduction to Physics", 3, "Active" },
+                    { 4, "Chemistry 101", 4, "Basic Chemistry", 4, "Active" },
+                    { 5, "Computer Science 101", 3, "Introduction to Computer Science", 5, "Active" },
+                    { 6, "Biology 101", 3, "Basic Biology", 6, "Active" },
+                    { 7, "Literature 101", 3, "Introduction to Literature", 7, "Active" },
+                    { 8, "Philosophy 101", 3, "Introduction to Philosophy", 8, "Active" }
                 });
 
             migrationBuilder.InsertData(
@@ -150,7 +168,13 @@ namespace ManagementSystem.Migrations
                 values: new object[,]
                 {
                     { 1, 30, "Room A", 1 },
-                    { 2, 25, "Room B", 2 }
+                    { 2, 25, "Room B", 2 },
+                    { 3, 35, "Room C", 3 },
+                    { 4, 40, "Room D", 4 },
+                    { 5, 20, "Room E", 5 },
+                    { 6, 50, "Room F", 6 },
+                    { 7, 45, "Room G", 7 },
+                    { 8, 30, "Room H", 8 }
                 });
 
             migrationBuilder.InsertData(
@@ -158,8 +182,14 @@ namespace ManagementSystem.Migrations
                 columns: new[] { "EnrollmentId", "CourseId", "EnrollmentDate", "Grade", "StudentId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(4948), null, 1 },
-                    { 2, 2, new DateTime(2024, 12, 15, 3, 52, 29, 886, DateTimeKind.Local).AddTicks(4963), null, 2 }
+                    { 1, 1, new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9625), null, 1 },
+                    { 2, 2, new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9641), null, 2 },
+                    { 3, 3, new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9642), null, 3 },
+                    { 4, 4, new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9643), null, 4 },
+                    { 5, 5, new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9672), null, 5 },
+                    { 6, 6, new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9674), null, 6 },
+                    { 7, 7, new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9674), null, 7 },
+                    { 8, 8, new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9675), null, 8 }
                 });
 
             migrationBuilder.CreateIndex(
