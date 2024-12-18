@@ -51,14 +51,31 @@ namespace Services
                 return (false, "Failed to create student.");
         }
 
-        public void DeactivateStudent(int id)
+        public (bool isSuccess, string message) DeactivateStudent(int id)
         {
             var student = _manager.Student.GetStudentById(id, false);
-            var studentDto = new StudentDtoForDeactivate { StudentId = id, FirstName = student.FirstName, LastName = student.LastName, Email = student.Email, Status = "Inactive" };
+            if (student == null)
+                return (false, "Student not found.");
+
+            var enrollments = student.Enrollments;
+            if (enrollments != null && enrollments.Any(e => e.Grade == null))
+                return (false, "The student has incomplete grades in their enrollments.");
+
+            var studentDto = new StudentDtoForDeactivate
+            {
+                StudentId = id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                Status = "Inactive"
+            };
             var entity = _mapper.Map<Student>(studentDto);
             _manager.Student.UpdateOneStudent(entity);
             _manager.Save();
+
+            return (true, "Student successfully deactivated.");
         }
+
 
         public (bool isSuccess, string message) UpdateOneStudent(StudentDtoForUpdate studentDto)
         {

@@ -77,10 +77,10 @@
                             @foreach (var enrollment in Model.Enrollments)
                             {
                                 <tr>
-                                    <td>@enrollment.Student.StudentId</td>
+                                    <td>@enrollment.Student?.StudentId</td>
                                     <td>
-                                        <a asp-controller="Student" asp-action="Get" asp-route-id="@enrollment.Student.StudentId">
-                                            @enrollment.Student.FirstName @enrollment.Student.LastName
+                                        <a asp-controller="Student" asp-action="Get" asp-route-id="@enrollment.Student?.StudentId">
+                                            @enrollment.Student?.FirstName @enrollment.Student?.LastName
                                         </a>
                                     </td>
                                     <td>@enrollment.EnrollmentDate.ToShortDateString()</td>

@@ -1,54 +1,108 @@
 @model Student
 
-<div class="container mt-4">
-    <h2>Edit Student</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            <form method="post" asp-action="Edit">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <input type="hidden" asp-for="StudentId" />
-
-                <div class="mb-3">
-                    <label asp-for="FirstName" class="form-label"></label>
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="card-title mb-0">
+                        <i class="bi bi-person-gear me-2"></i>Edit Student
+                    </h2>
                 </div>
+                <div class="card-body">
+                    <form method="post" asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <input type="hidden" asp-for="StudentId" />
 
-                <div class="mb-3">
-                    <label asp-for="LastName" class="form-label"></label>
-                    <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
+                        <div class="mb-3 form-floating">
+                            <input asp-for="FirstName" class="form-control" placeholder="Enter first name" />
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 form-floating">
+                            <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
+                            <label asp-for="LastName" class="form-label"></label>
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 form-floating">
+                            <input asp-for="Email" class="form-control" type="email" placeholder="Enter email" />
+                            <label asp-for="Email" class="form-label"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 form-floating">
+                            <input asp-for="DateOfBirth" class="form-control" type="date" placeholder="Select date of birth" />
+                            <label asp-for="DateOfBirth" class="form-label"></label>
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 form-floating">
+                            <select asp-for="Status" class="form-select" aria-label="Select status">
+                                <option value="Active" selected="@(Model.Status == "Active")">Active</option>
+                                <option value="Inactive" selected="@(Model.Status == "Inactive")">Inactive</option>
+                            </select>
+                            <label asp-for="Status" class="form-label">Status</label>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Students" class="btn btn-secondary me-md-2">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="mb-3">
-                    <label asp-for="Email" class="form-label"></label>
-                    <input asp-for="Email" class="form-control" type="email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="DateOfBirth" class="form-label"></label>
-                    <input asp-for="DateOfBirth" class="form-control" type="date" />
-                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="Status" class="form-label">Status</label>
-                    <select asp-for="Status" class="form-select">
-                        <option value="Active" selected="@(Model.Status == "Active")">Active</option>
-                        <option value="Inactive" selected="@(Model.Status == "Inactive")">Inactive</option>
-                    </select>
-                    <span asp-validation-for="Status" class="text-danger"></span>
-                </div>
-
-
-
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <a asp-action="Students" class="btn btn-secondary">Cancel</a>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
+@section Styles {
+    <style>
+        .card {
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+        }
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label,
+        .form-floating > .form-select ~ label {
+            color: #0d6efd;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            // Add animation to the card
+            $('.card').hide().fadeIn(1000);
+
+            // Custom date input styling
+            $('#DateOfBirth').on('change', function() {
+                if ($(this).val()) {
+                    $(this).addClass('has-value');
+                } else {
+                    $(this).removeClass('has-value');
+                }
+            });
+
+            // Initialize date input if it has a value
+            if ($('#DateOfBirth').val()) {
+                $('#DateOfBirth').addClass('has-value');
+            }
+        });
+    </script>
+}

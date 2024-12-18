@@ -89,9 +89,7 @@ namespace ManagementSystem.Controllers
 				ViewBag.Success = isSuccess;
 
 				if (isSuccess)
-				{
 					return View("Students", _manager.StudentService.GetAllStudents(false).ToList());
-				}
 			}
 			return View(studentDto);
 		}
@@ -102,11 +100,12 @@ namespace ManagementSystem.Controllers
 		{
 			var student = _manager.StudentService.GetStudentById(id, false);
 			if (student.Status != "Active")
-			{
 				return BadRequest("Only active users can be deactivated.");
-			}
-			_manager.StudentService.DeactivateStudent(id);
-			return RedirectToAction("Students");
+			var (isSuccess, message) = _manager.StudentService.DeactivateStudent(id);
+			
+			ViewBag.Message = message;
+			ViewBag.Success = isSuccess;
+			return View("Students", _manager.StudentService.GetAllStudents(false).ToList());
 		}
 	}
 }

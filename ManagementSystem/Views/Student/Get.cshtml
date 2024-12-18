@@ -3,92 +3,129 @@
     ViewData["Title"] = "Student Details";
 }
 
-<div class="container mt-4">
-    <h2>Student Details</h2>
-    <hr />
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="card-title mb-0">
+                        <i class="bi bi-person-badge me-2"></i>Student Details
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-3 text-center">
+                            <img src="https://via.placeholder.com/150" alt="@Model.FirstName @Model.LastName" class="img-fluid rounded-circle mb-3">
+                            <h3>@Model.FirstName @Model.LastName</h3>
+                            <p class="text-muted">Student ID: @Model.StudentId</p>
+                        </div>
+                        <div class="col-md-9">
+                            <dl class="row">
+                                <dt class="col-sm-4"><i class="bi bi-envelope me-2"></i>Email</dt>
+                                <dd class="col-sm-8">@Model.Email</dd>
 
-    <div class="card">
-        <div class="card-header">
-            <h3>@Model.FirstName @Model.LastName</h3>
-        </div>
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-3">Student ID</dt>
-                <dd class="col-sm-9">@Model.StudentId</dd>
+                                <dt class="col-sm-4"><i class="bi bi-calendar me-2"></i>Date of Birth</dt>
+                                <dd class="col-sm-8">@Model.DateOfBirth.ToShortDateString()</dd>
 
-                <dt class="col-sm-3">First Name</dt>
-                <dd class="col-sm-9">@Model.FirstName</dd>
+                                <dt class="col-sm-4"><i class="bi bi-calendar-check me-2"></i>Enrollment Date</dt>
+                                <dd class="col-sm-8">@Model.EnrollmentDate.ToShortDateString()</dd>
+                            </dl>
+                        </div>
+                    </div>
 
-                <dt class="col-sm-3">Last Name</dt>
-                <dd class="col-sm-9">@Model.LastName</dd>
-
-                <dt class="col-sm-3">Email</dt>
-                <dd class="col-sm-9">@Model.Email</dd>
-
-                <dt class="col-sm-3">Date of Birth</dt>
-                <dd class="col-sm-9">@Model.DateOfBirth.ToShortDateString()</dd>
-
-                <dt class="col-sm-3">Enrollment Date</dt>
-                <dd class="col-sm-9">@Model.EnrollmentDate.ToShortDateString()</dd>
-
-                <dt class="col-sm-3">Enrollments</dt>
-                <dd class="col-sm-9">
+                    <h4 class="mb-3"><i class="bi bi-book me-2"></i>Enrollments</h4>
                     @if (Model.Enrollments != null && Model.Enrollments.Any())
                     {
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Course Name</th>
-                                    <th>Course Credit</th>
-                                    <th>Grade</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var enrollment in Model.Enrollments)
-                                {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover align-middle">
+                                <thead class="table-light">
                                     <tr>
-                                        <td>@enrollment.Course.CourseName</td>
-                                        <td>@enrollment.Course.Credits</td>
+                                        <th>Course Name</th>
+                                        <th>Course Credit</th>
+                                        <th>Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var enrollment in Model.Enrollments)
+                                    {
+                                        <tr>
+                                            <td>@enrollment.Course.CourseName</td>
+                                            <td>@enrollment.Course.Credits</td>
+                                            <td>
+                                                @if (enrollment.Grade.HasValue)
+                                                {
+                                                    <span class="badge bg-success">@enrollment.Grade.Value.ToString("N2")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Not graded</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-primary">
+                                        <td colspan="2"><strong>Average Grade</strong></td>
                                         <td>
-                                            @if (enrollment.Grade.HasValue)
+                                            @if (ViewBag.AverageGrade != null)
                                             {
-                                                @enrollment.Grade.Value.ToString("N2")
+                                                <span class="badge bg-primary">@(((decimal)ViewBag.AverageGrade).ToString("N2"))</span>
                                             }
                                             else
                                             {
-                                                <span class="text-muted">Not graded</span>
+                                                <span class="badge bg-secondary">N/A</span>
                                             }
                                         </td>
                                     </tr>
-                                }
-                            </tbody>
-                            <tfoot>
-                                <tr class="table-primary">
-                                    <td colspan="2"><strong>Average Grade</strong></td>
-                                    <td>
-                                        @if (ViewBag.AverageGrade != null)
-                                        {
-                                            @(((decimal)ViewBag.AverageGrade).ToString("N2"))
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">N/A</span>
-                                        }
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                </tfoot>
+                            </table>
+                        </div>
                     }
                     else
                     {
-                        <span>No enrollments</span>
+                        <div class="alert alert-info" role="alert">
+                            <i class="bi bi-info-circle me-2"></i>No enrollments found for this student.
+                        </div>
                     }
-                </dd>
-            </dl>
-        </div>
-        <div class="card-footer">
-            <a asp-route-id="@Model.StudentId" asp-action="Edit" class="btn btn-primary">Edit</a>
-            <a asp-action="Students" class="btn btn-secondary">Back to List</a>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Students" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Back to List
+                        </a>
+                        <a asp-route-id="@Model.StudentId" asp-action="Edit" class="btn btn-primary">
+                            <i class="bi bi-pencil me-2"></i>Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+@section Styles {
+    <style>
+        .card {
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+        }
+        .table-hover tbody tr {
+            transition: all 0.2s ease-in-out;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(0,0,0,.075)!important;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Add animation to the card
+            $('.card').hide().fadeIn(1000);
+        });
+    </script>
+}
