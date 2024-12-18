@@ -3,56 +3,99 @@
     ViewData["Title"] = "Edit Course";
 }
 
-<div class="container mt-4">
-    <h2>Edit Course</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-8">
-            <form asp-action="Edit" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="CourseId" />
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="card-title mb-0">
+                        <i class="bi bi-pencil-square me-2"></i>Edit Course
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <input type="hidden" asp-for="CourseId" />
 
-                <div class="mb-3">
-                    <label asp-for="CourseName" class="form-label"></label>
-                    <input asp-for="CourseName" class="form-control" />
-                    <span asp-validation-for="CourseName" class="text-danger"></span>
+                        <div class="mb-3 form-floating">
+                            <input asp-for="CourseName" class="form-control" placeholder="Enter course name" />
+                            <label asp-for="CourseName" class="form-label"></label>
+                            <span asp-validation-for="CourseName" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3 form-floating">
+                            <textarea asp-for="Description" class="form-control" placeholder="Enter course description" style="height: 100px"></textarea>
+                            <label asp-for="Description" class="form-label"></label>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3 form-floating">
+                            <select asp-for="Credits" class="form-select" aria-label="Select credits">
+                                @for (int i = 0; i <= 5; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                            <label asp-for="Credits" class="form-label"></label>
+                            <span asp-validation-for="Credits" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3 form-floating">
+                            <select asp-for="InstructorId" asp-items="ViewBag.InstructorList" class="form-select" aria-label="Select instructor">
+                                <option value="">-- Select Instructor --</option>
+                            </select>
+                            <label asp-for="InstructorId" class="form-label"></label>
+                            <span asp-validation-for="InstructorId" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Courses" class="btn btn-secondary me-md-2">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                
-                <div class="mb-3">
-                    <label asp-for="Description" class="form-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                
-                <div class="mb-3">
-                    <label asp-for="Credits" class="form-label"></label>
-                    <select asp-for="Credits" class="form-select">
-                        @for (int i = 0; i <= 5; i++)
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    </select>
-                    <span asp-validation-for="Credits" class="text-danger"></span>
-                </div>
-                
-                <div class="mb-3">
-                    <label asp-for="InstructorId" class="form-label"></label>
-                    <select asp-for="InstructorId" asp-items="ViewBag.InstructorList" class="form-select">
-                        <option value="">-- Select Instructor --</option>
-                    </select>
-                    <span asp-validation-for="InstructorId" class="text-danger"></span>
-                </div>
-                
-                <div class="mb-3">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                    <a asp-action="Courses" class="btn btn-secondary">Back to List</a>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Styles {
+    <style>
+        .card {
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+        }
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label,
+        .form-floating > .form-select ~ label {
+            color: #0d6efd;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+    </style>
 }
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            // Add animation to the card
+            $('.card').hide().fadeIn(1000);
+
+            // Initialize Select2 for instructor dropdown
+            $('.form-select').select2({
+                theme: 'bootstrap-5',
+                width: '100%'
+            });
+        });
+    </script>
+}

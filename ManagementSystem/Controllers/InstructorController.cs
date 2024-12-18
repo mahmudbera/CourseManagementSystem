@@ -77,9 +77,9 @@ namespace ManagementSystem.Controllers
 			var (isSuccess, message) = _manager.InstructorService.DeleteInstructor(id);
 
 			if (isSuccess)
-				ViewBag.SuccessMessage = message;
+				ViewBag.message = message;
 			else
-				ViewBag.ErrorMessage = message;
+				ViewBag.message = message;
 
 			return View("Instructors", _manager.InstructorService.GetAllInstructors(false).ToList());
 		}
