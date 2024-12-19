@@ -8,10 +8,13 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-lg">
-                @if (ViewBag.ErrorMessage != null)
+                @if (ViewBag.Message != null)
                 {
-                    <div class="alert alert-danger">
-                        @ViewBag.ErrorMessage
+                    <div class="alert @(ViewBag.Success == true ? "alert-success" : "alert-danger") alert-dismissible fade show shadow-sm"
+                        role="alert">
+                        <i class="bi @(ViewBag.Success == true ? "bi-check-circle" : "bi-exclamation-triangle") me-2"></i>
+                        @ViewBag.Message
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 }
                 <div class="card-header bg-primary text-white">

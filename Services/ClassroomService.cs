@@ -47,6 +47,11 @@ namespace Services
 
         public (bool isSuccess, string message) CreateClassroom(Classroom classroom)
         {
+            var existingClassroom = _manager.Classroom.GetAllClassrooms(false)
+                .FirstOrDefault(c => c.ClassroomName == classroom.ClassroomName);
+
+            if (existingClassroom != null)
+                return (false, "A classroom with the same name already exists.");
             _manager.Classroom.AddClassroom(classroom);
 
             bool result = _manager.Save();
@@ -62,14 +67,10 @@ namespace Services
             var classroom = GetClassroomById(id, false);
 
             if (classroom == null)
-            {
                 return (false, "Classroom not found.");
-            }
 
             if (classroom.Course != null)
-            {
                 return (false, "Classroom is assigned to a course. Please unassign it first.");
-            }
 
             _manager.Classroom.Remove(classroom);
             _manager.Save();

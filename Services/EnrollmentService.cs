@@ -28,21 +28,15 @@ namespace Services.Contracts
                     .FirstOrDefault();
 
             if (existingEnrollment != null)
-            {
                 return (false, "This student is already enrolled in this course.");
-            }
 
             _manager.Enrollment.CreateEnrollment(enrollment);
             bool result = _manager.Save();
 
             if (result)
-            {
                 return (true, "Enrollment successfully added.");
-            }
             else
-            {
                 return (false, "Failed to add enrollment.");
-            }
         }
 
         public (bool isSuccess, string message) UpdateOneEnrollmentGrade(EnrollmentDtoForGrade enrollmentDto)
@@ -52,13 +46,9 @@ namespace Services.Contracts
             bool result = _manager.Save();
 
             if (result)
-            {
                 return (true, "Grade successfully updated.");
-            }
             else
-            {
                 return (false, "Failed to update grade.");
-            }
         }
     }
 }

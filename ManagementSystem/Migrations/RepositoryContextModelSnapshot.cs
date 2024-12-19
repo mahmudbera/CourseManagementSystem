@@ -239,56 +239,56 @@ namespace ManagementSystem.Migrations
                         {
                             EnrollmentId = 1,
                             CourseId = 1,
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9625),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 969, DateTimeKind.Local).AddTicks(9140),
                             StudentId = 1
                         },
                         new
                         {
                             EnrollmentId = 2,
                             CourseId = 2,
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9641),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 969, DateTimeKind.Local).AddTicks(9153),
                             StudentId = 2
                         },
                         new
                         {
                             EnrollmentId = 3,
                             CourseId = 3,
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9642),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 969, DateTimeKind.Local).AddTicks(9154),
                             StudentId = 3
                         },
                         new
                         {
                             EnrollmentId = 4,
                             CourseId = 4,
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9643),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 969, DateTimeKind.Local).AddTicks(9155),
                             StudentId = 4
                         },
                         new
                         {
                             EnrollmentId = 5,
                             CourseId = 5,
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9672),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 969, DateTimeKind.Local).AddTicks(9156),
                             StudentId = 5
                         },
                         new
                         {
                             EnrollmentId = 6,
                             CourseId = 6,
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9674),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 969, DateTimeKind.Local).AddTicks(9156),
                             StudentId = 6
                         },
                         new
                         {
                             EnrollmentId = 7,
                             CourseId = 7,
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9674),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 969, DateTimeKind.Local).AddTicks(9157),
                             StudentId = 7
                         },
                         new
                         {
                             EnrollmentId = 8,
                             CourseId = 8,
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 846, DateTimeKind.Local).AddTicks(9675),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 969, DateTimeKind.Local).AddTicks(9158),
                             StudentId = 8
                         });
                 });
@@ -327,7 +327,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 1,
                             Email = "johndoe@email.com",
                             FirstName = "John",
-                            HireDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(884),
+                            HireDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(756),
                             LastName = "Doe"
                         },
                         new
@@ -335,7 +335,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 2,
                             Email = "janesmith@email.com",
                             FirstName = "Jane",
-                            HireDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(889),
+                            HireDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(762),
                             LastName = "Smith"
                         },
                         new
@@ -343,7 +343,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 3,
                             Email = "michaelbrown@email.com",
                             FirstName = "Michael",
-                            HireDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(890),
+                            HireDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(764),
                             LastName = "Brown"
                         },
                         new
@@ -351,7 +351,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 4,
                             Email = "emilydavis@email.com",
                             FirstName = "Emily",
-                            HireDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(891),
+                            HireDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(765),
                             LastName = "Davis"
                         },
                         new
@@ -359,7 +359,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 5,
                             Email = "davidwilson@email.com",
                             FirstName = "David",
-                            HireDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(892),
+                            HireDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(766),
                             LastName = "Wilson"
                         },
                         new
@@ -367,7 +367,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 6,
                             Email = "sarahmartinez@email.com",
                             FirstName = "Sarah",
-                            HireDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(893),
+                            HireDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(767),
                             LastName = "Martinez"
                         },
                         new
@@ -375,7 +375,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 7,
                             Email = "christaylor@email.com",
                             FirstName = "Chris",
-                            HireDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(894),
+                            HireDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(768),
                             LastName = "Taylor"
                         },
                         new
@@ -383,7 +383,7 @@ namespace ManagementSystem.Migrations
                             InstructorId = 8,
                             Email = "lauraanderson@email.com",
                             FirstName = "Laura",
-                            HireDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(895),
+                            HireDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(769),
                             LastName = "Anderson"
                         });
                 });
@@ -429,7 +429,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 1,
                             DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "alice@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2242),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(2220),
                             FirstName = "Alice",
                             LastName = "Johnson",
                             Status = "Active"
@@ -439,7 +439,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 2,
                             DateOfBirth = new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bob@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2250),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(2227),
                             FirstName = "Bob",
                             LastName = "Brown",
                             Status = "Active"
@@ -449,7 +449,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 3,
                             DateOfBirth = new DateTime(2000, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "charlie@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2298),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(2230),
                             FirstName = "Charlie",
                             LastName = "Williams",
                             Status = "Active"
@@ -459,7 +459,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 4,
                             DateOfBirth = new DateTime(2000, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "david@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2301),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(2233),
                             FirstName = "David",
                             LastName = "Jones",
                             Status = "Active"
@@ -469,7 +469,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 5,
                             DateOfBirth = new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "eva@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2303),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(2236),
                             FirstName = "Eva",
                             LastName = "Martinez",
                             Status = "Active"
@@ -479,7 +479,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 6,
                             DateOfBirth = new DateTime(2000, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "frank@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2307),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(2239),
                             FirstName = "Frank",
                             LastName = "Garcia",
                             Status = "Active"
@@ -489,7 +489,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 7,
                             DateOfBirth = new DateTime(2000, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "grace@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2309),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(2242),
                             FirstName = "Grace",
                             LastName = "Rodriguez",
                             Status = "Active"
@@ -499,7 +499,7 @@ namespace ManagementSystem.Migrations
                             StudentId = 8,
                             DateOfBirth = new DateTime(2000, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "henry@email.com",
-                            EnrollmentDate = new DateTime(2024, 12, 15, 19, 56, 34, 847, DateTimeKind.Local).AddTicks(2312),
+                            EnrollmentDate = new DateTime(2024, 12, 19, 21, 8, 7, 970, DateTimeKind.Local).AddTicks(2245),
                             FirstName = "Henry",
                             LastName = "Martinez",
                             Status = "Active"

@@ -17,6 +17,14 @@ namespace ManagementSystem.Controllers
 		public IActionResult Instructors()
 		{
 			var instructors = _manager.InstructorService.GetAllInstructors(false).ToList();
+			var message = TempData["Message"];
+			var success = TempData["Success"];
+
+			if (message != null)
+			{
+				ViewBag.Message = message.ToString();
+				ViewBag.Success = Convert.ToBoolean(success);
+			}
 			return View(instructors);
 		}
 
@@ -28,17 +36,11 @@ namespace ManagementSystem.Controllers
 			{
 				var (isSuccess, message) = _manager.InstructorService.UpdateOneInstructor(instructorDto);
 
-				if (isSuccess)
-				{
-					ViewBag.SuccessMessage = message;
-				}
-				else
-				{
-					ViewBag.ErrorMessage = message;
-				}
+				TempData["Message"] = message;
+				TempData["Success"] = isSuccess;
 			}
 
-			return View("Instructors", _manager.InstructorService.GetAllInstructors(false).ToList());
+			return RedirectToAction("Instructors");
 		}
 
 		public IActionResult Create()
@@ -56,12 +58,13 @@ namespace ManagementSystem.Controllers
 
 				if (isSuccess)
 				{
-					ViewBag.SuccessMessage = message;
+					ViewBag.Message = message;
+					ViewBag.Success = isSuccess;
 					return View("Instructors", _manager.InstructorService.GetAllInstructors(false).ToList());
 				}
 				else
 				{
-					ViewBag.ErrorMessage = message;
+					ViewBag.Message = message;
 					return View("Create");
 				}
 			}
@@ -76,10 +79,8 @@ namespace ManagementSystem.Controllers
 		{
 			var (isSuccess, message) = _manager.InstructorService.DeleteInstructor(id);
 
-			if (isSuccess)
-				ViewBag.message = message;
-			else
-				ViewBag.message = message;
+			ViewBag.Success = isSuccess;
+			ViewBag.message = message;
 
 			return View("Instructors", _manager.InstructorService.GetAllInstructors(false).ToList());
 		}

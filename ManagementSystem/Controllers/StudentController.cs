@@ -14,9 +14,12 @@ namespace ManagementSystem.Controllers
 			_manager = manager;
 		}
 
-		public IActionResult Students()
+		public IActionResult Students(string? statu = null)
 		{
 			var students = _manager.StudentService.GetAllStudents(false).ToList();
+			if (!string.IsNullOrEmpty(statu))
+				students = students.Where(s => s.Status == statu).ToList();
+
 			return View(students);
 		}
 
@@ -102,7 +105,7 @@ namespace ManagementSystem.Controllers
 			if (student.Status != "Active")
 				return BadRequest("Only active users can be deactivated.");
 			var (isSuccess, message) = _manager.StudentService.DeactivateStudent(id);
-			
+
 			ViewBag.Message = message;
 			ViewBag.Success = isSuccess;
 			return View("Students", _manager.StudentService.GetAllStudents(false).ToList());

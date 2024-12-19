@@ -37,10 +37,10 @@ namespace Services
         {
             var existingStudent = _manager.Student
                 .GetAllStudents(false)
-                .FirstOrDefault(s => s.FirstName == student.FirstName && s.LastName == student.LastName && s.Email == student.Email);
+                .FirstOrDefault(s => s.Email == student.Email);
 
             if (existingStudent != null)
-                return (false, "A student with the same name and email already exists.");
+                return (false, "A student with the same email already exists.");
 
             _manager.Student.CreateStudent(student);
             bool result = _manager.Save();
@@ -57,8 +57,8 @@ namespace Services
             if (student == null)
                 return (false, "Student not found.");
 
-            var enrollments = student.Enrollments;
-            if (enrollments != null && enrollments.Any(e => e.Grade == null))
+            bool hasEnrollments = checkEnrollments(id);
+            if (!hasEnrollments)
                 return (false, "The student has incomplete grades in their enrollments.");
 
             var studentDto = new StudentDtoForDeactivate
@@ -76,17 +76,20 @@ namespace Services
             return (true, "Student successfully deactivated.");
         }
 
-
         public (bool isSuccess, string message) UpdateOneStudent(StudentDtoForUpdate studentDto)
         {
             var student = _manager.Student.GetStudentById(studentDto.StudentId, false);
 
             var existingStudent = _manager.Student
                 .GetAllStudents(false)
-                .FirstOrDefault(s => s.StudentId != studentDto.StudentId && s.FirstName == studentDto.FirstName && s.LastName == studentDto.LastName && s.Email == studentDto.Email);
+                .FirstOrDefault(s => s.StudentId != studentDto.StudentId && s.Email == studentDto.Email);
 
             if (existingStudent != null)
-                return (false, "A student with the same name and email already exists.");
+                return (false, "A student with the same email already exists.");
+
+            bool hasEnrollments = checkEnrollments(student.StudentId);
+            if (!hasEnrollments)
+                return (false, "The student has incomplete grades in their enrollments.");
 
             var entity = _mapper.Map<Student>(studentDto);
             _manager.Student.UpdateOneStudent(entity);
@@ -96,6 +99,15 @@ namespace Services
                 return (true, "Student successfully updated.");
             else
                 return (false, "Failed to update student.");
+        }
+    
+        private bool checkEnrollments(int id)
+        {
+            var student = _manager.Student.GetStudentById(id, false);
+            var enrollments = student.Enrollments;
+            if (enrollments != null && enrollments.Any(e => e.Grade == null))
+                return false;
+            return true;
         }
     }
 }

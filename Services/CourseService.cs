@@ -49,17 +49,20 @@ namespace Services.Contracts
         public (bool isSuccess, string message) UpdateOneCourse(CourseDtoForUpdate courseDto)
         {
             var entity = _mapper.Map<Course>(courseDto);
+
+            var existingCourse = _manager.Course.GetAllCourses(false)
+                .FirstOrDefault(c => c.CourseName == entity.CourseName && c.CourseId != entity.CourseId);
+
+            if (existingCourse != null)
+                return (false, "Another course with the same name already exists.");
+                
             _manager.Course.UpdateOneCourse(entity);
             bool changes = _manager.Save();
 
             if (changes)
-            {
                 return (true, "Course updated successfully.");
-            }
             else
-            {
                 return (false, "No changes were made or an error occurred.");
-            }
         }
 
         public (bool isSuccess, string message) CreateCourse(Course course)
@@ -81,14 +84,10 @@ namespace Services.Contracts
             var course = _manager.Course.GetCourseById(courseId, trackChanges: true);
 
             if (course == null)
-            {
                 return (false, "Course not found.");
-            }
 
             if (course.Status != "Inactive")
-            {
                 return (false, "Only inactive courses can be deleted.");
-            }
 
             if (course.Enrollments == null || !course.Enrollments.Any())
             {
