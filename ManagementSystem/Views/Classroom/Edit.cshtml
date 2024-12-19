@@ -98,7 +98,6 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         $(document).ready(function() {
-            // Enable Bootstrap form validation
             var forms = document.querySelectorAll('.needs-validation');
             Array.prototype.slice.call(forms).forEach(function (form) {
                 form.addEventListener('submit', function (event) {
@@ -110,10 +109,8 @@
                 }, false);
             });
 
-            // Add animation to the card
             $('.card').hide().fadeIn(1000);
 
-            // Enhance select dropdowns with Select2
             $('.form-select').select2({
                 theme: 'bootstrap-5'
             });

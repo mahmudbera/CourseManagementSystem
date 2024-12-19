@@ -87,10 +87,8 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function() {
-            // Add animation to the card
             $('.card').hide().fadeIn(1000);
 
-            // Custom date input styling
             $('#DateOfBirth').on('change', function() {
                 if ($(this).val()) {
                     $(this).addClass('has-value');
@@ -99,7 +97,6 @@
                 }
             });
 
-            // Initialize date input if it has a value
             if ($('#DateOfBirth').val()) {
                 $('#DateOfBirth').addClass('has-value');
             }

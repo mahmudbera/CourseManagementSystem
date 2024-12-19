@@ -15,11 +15,14 @@ namespace ManagementSystem.Controllers
 			_manager = manager;
 		}
 
-		public IActionResult Enrollments()
+		public IActionResult Enrollments(int? courseId = null)
 		{
 			var enrollments = _manager.EnrollmentService
 				.GetAllEnrollments(false)
 				.ToList();
+
+			if (courseId.HasValue)
+				enrollments = enrollments.Where(e => e.CourseId == courseId.Value).ToList();
 
 			var activeStudents = _manager.StudentService
 				.GetAllStudents(false)
@@ -77,7 +80,7 @@ namespace ManagementSystem.Controllers
 			if (ModelState.IsValid)
 			{
 				var (isSuccess, message) = _manager.EnrollmentService.UpdateOneEnrollmentGrade(enrollmentDto);
-				
+
 				TempData["Message"] = message;
 				TempData["Success"] = isSuccess;
 			}

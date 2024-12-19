@@ -1,0 +1,32 @@
+@model IEnumerable<Course>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h6 class="mb-0">
+            <i class="fa fa-solid fa-bars me-2"></i>
+            Categories
+        </h6>
+    </div>
+    <div class="card-body p-2">
+        <small>
+            <a asp-controller="Enrollment" asp-action="Enrollments" class="text-muted text-decoration-none float-end">
+                <i class="fa fa-solid fa-filter-circle-xmark me-1"></i>
+                Clear Filter
+            </a>
+        </small>
+    </div>
+    <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+            @foreach (var c in Model)
+            {
+                <li class="list-group-item">
+                    <a asp-controller="Enrollment" asp-action="Enrollments" asp-route-courseId="@c.CourseId" class="text-decoration-none">
+                        <i class="fa fa-solid fa-graduation-cap me-2"></i>
+                        @c.CourseName
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+

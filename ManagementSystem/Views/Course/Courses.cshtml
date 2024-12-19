@@ -139,13 +139,11 @@
                 courseIdInput.value = courseId;
             });
 
-            // Initialize tooltips
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             });
 
-            // Add animation to the card
             $('.card').hide().fadeIn(1000);
         });
     </script>
